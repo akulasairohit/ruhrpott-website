@@ -47,12 +47,6 @@ const AboutSection = () => {
               <Windmill size={112} className="absolute top-10 right-10 w-28 h-28" />
               <Windmill size={80} className="absolute top-40 left-20 w-20 h-20" delay={1} />
               <Windmill size={64} className="absolute bottom-20 right-32 w-16 h-16" delay={2} />
-              
-              <img 
-                src="/attached_assets/background-ai-wind.png" 
-                alt="Green energy wind turbines powering AI in the Ruhr region" 
-                className="w-full h-full object-cover rounded-xl"
-              />
             </div>
           </div>
         </div>

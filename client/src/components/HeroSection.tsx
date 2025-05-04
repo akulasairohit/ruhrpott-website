@@ -1,7 +1,6 @@
 import { ArrowDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Particles from './Particles';
-import WindTurbine from './WindTurbine';
 
 const HeroSection = () => {
   return (
@@ -9,19 +8,6 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-[#0f172a] z-0"></div>
       
       <Particles count={15} />
-      
-      {/* Wind Turbines on the right side */}
-      <div className="absolute right-0 bottom-0 z-10 hidden md:block">
-        <WindTurbine size={120} className="absolute right-20 bottom-0" delay={0} />
-        <WindTurbine size={100} className="absolute right-60 bottom-0" delay={1.5} />
-        <WindTurbine size={80} className="absolute right-96 bottom-0" delay={2.5} />
-      </div>
-      
-      {/* Mobile Wind Turbines (smaller size) */}
-      <div className="absolute right-0 bottom-0 z-10 md:hidden">
-        <WindTurbine size={60} className="absolute right-4 bottom-0" delay={0} />
-        <WindTurbine size={40} className="absolute right-24 bottom-0" delay={1.5} />
-      </div>
       
       <div className="relative z-20 container mx-auto px-4 h-full flex items-center">
         <div className="max-w-xl md:max-w-2xl py-16">
