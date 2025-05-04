@@ -2,28 +2,20 @@ import { FC } from 'react';
 
 interface LogoProps {
   size?: 'small' | 'medium' | 'large';
-  withText?: boolean;
 }
 
 const LogoSizes = {
-  small: 'h-10 w-auto',
-  medium: 'h-16 w-auto',
-  large: 'h-28 w-auto',
+  small: 'text-xl',
+  medium: 'text-2xl',
+  large: 'text-4xl',
 };
 
-const Logo: FC<LogoProps> = ({ size = 'medium', withText = true }) => {
+const Logo: FC<LogoProps> = ({ size = 'medium' }) => {
   return (
-    <div className="flex items-center gap-2">
-      <img 
-        src="/attached_assets/logo-ruhrpott.png" 
-        alt="Ruhrpott.ai Logo" 
-        className={LogoSizes[size]}
-      />
-      {withText && (
-        <span className={`font-bold ${size === 'large' ? 'text-2xl' : 'text-xl'}`}>
-          Ruhrpott.ai
-        </span>
-      )}
+    <div className="flex items-center">
+      <span className={`font-bold ${LogoSizes[size]} text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-teal-600`}>
+        Ruhrpott.ai
+      </span>
     </div>
   );
 };

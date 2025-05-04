@@ -17,12 +17,12 @@ const HeroSection = () => {
       <div className="relative z-20 container mx-auto px-4 h-full flex items-center">
         <div className="max-w-2xl py-16">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-            <span className="block">Find Your Perfect</span> 
-            <span className="text-[#10b981]">Job Service</span> 
-            <span className="block">Powered by Green AI</span>
+            <span className="block">From Coal to</span> 
+            <span className="text-[#10b981]">Green AI</span> 
+            <span className="block">Transforming the Ruhr Region</span>
           </h1>
           <p className="text-xl md:text-2xl mb-8 text-gray-300">
-            Compare service features and pricing to make the right choice for your career journey, all powered by sustainable green energy.
+            Leveraging our industrial heritage to power the future with sustainable AI solutions and innovative IT services for every industry in the Ruhr region.
           </p>
           <div className="flex flex-wrap gap-4">
             <Button 
@@ -30,7 +30,7 @@ const HeroSection = () => {
               size="lg"
               className="bg-[#10b981] hover:bg-[#059669] text-white font-semibold text-lg"
             >
-              <a href="#pricing">Compare Services</a>
+              <a href="#services">Our Solutions</a>
             </Button>
             <Button
               asChild
@@ -38,7 +38,7 @@ const HeroSection = () => {
               variant="outline"
               className="border-[#10b981] hover:bg-[#10b981]/10 text-[#10b981] font-semibold text-lg"
             >
-              <a href="#about">Learn More</a>
+              <a href="#about">Our Story</a>
             </Button>
           </div>
         </div>
