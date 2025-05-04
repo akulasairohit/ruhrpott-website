@@ -63,6 +63,11 @@
   100% { transform: translateY(0) rotate(360deg); }
 }
 
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 .wind-animation {
   animation: float 10s infinite ease-in-out;
 }

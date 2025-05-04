@@ -1,34 +1,43 @@
 import { ArrowDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Particles from './Particles';
+import WindTurbine from './WindTurbine';
 
 const HeroSection = () => {
   return (
     <section className="relative min-h-[80vh] overflow-hidden" id="hero">
-      <div 
-        className="absolute inset-0 bg-cover bg-center z-0" 
-        style={{ backgroundImage: "url('/attached_assets/background-ai-wind.png')" }}
-      >
-        <div className="absolute inset-0 bg-[#0f172a] bg-opacity-70"></div>
-      </div>
+      <div className="absolute inset-0 bg-[#0f172a] z-0"></div>
       
       <Particles count={15} />
       
+      {/* Wind Turbines on the right side */}
+      <div className="absolute right-0 bottom-0 z-10 hidden md:block">
+        <WindTurbine size={120} className="absolute right-20 bottom-0" delay={0} />
+        <WindTurbine size={100} className="absolute right-60 bottom-0" delay={1.5} />
+        <WindTurbine size={80} className="absolute right-96 bottom-0" delay={2.5} />
+      </div>
+      
+      {/* Mobile Wind Turbines (smaller size) */}
+      <div className="absolute right-0 bottom-0 z-10 md:hidden">
+        <WindTurbine size={60} className="absolute right-4 bottom-0" delay={0} />
+        <WindTurbine size={40} className="absolute right-24 bottom-0" delay={1.5} />
+      </div>
+      
       <div className="relative z-20 container mx-auto px-4 h-full flex items-center">
-        <div className="max-w-2xl py-16">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+        <div className="max-w-xl md:max-w-2xl py-16">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
             <span className="block">From Coal to</span> 
             <span className="text-[#10b981]">Green AI</span> 
             <span className="block">Transforming the Ruhr Region</span>
           </h1>
-          <p className="text-xl md:text-2xl mb-8 text-gray-300">
+          <p className="text-lg md:text-xl lg:text-2xl mb-8 text-gray-300">
             Leveraging our industrial heritage to power the future with sustainable AI solutions and innovative IT services for every industry in the Ruhr region.
           </p>
           <div className="flex flex-wrap gap-4">
             <Button 
               asChild
               size="lg"
-              className="bg-[#10b981] hover:bg-[#059669] text-white font-semibold text-lg"
+              className="bg-[#10b981] hover:bg-[#059669] text-white font-semibold text-base md:text-lg"
             >
               <a href="#services">Our Solutions</a>
             </Button>
@@ -36,7 +45,7 @@ const HeroSection = () => {
               asChild
               size="lg"
               variant="outline"
-              className="border-[#10b981] hover:bg-[#10b981]/10 text-[#10b981] font-semibold text-lg"
+              className="border-[#10b981] hover:bg-[#10b981]/10 text-[#10b981] font-semibold text-base md:text-lg"
             >
               <a href="#about">Our Story</a>
             </Button>
