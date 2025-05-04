@@ -11,7 +11,7 @@ const Footer = () => {
               <Logo size="small" />
             </div>
             <p className="text-gray-400 mb-4">
-              AI-powered job services running on 100% green energy from the Ruhr region.
+              Pioneering sustainable IT solutions powered by clean wind energy from the heart of the Ruhr region.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-[#10b981] transition-colors">
@@ -30,13 +30,13 @@ const Footer = () => {
           </div>
           
           <div>
-            <h3 className="font-semibold text-lg mb-4">Services</h3>
+            <h3 className="font-semibold text-lg mb-4">Solutions</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-400 hover:text-[#10b981] transition-colors">Resume Optimization</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-[#10b981] transition-colors">Job Matching</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-[#10b981] transition-colors">Interview Coaching</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-[#10b981] transition-colors">Career Counseling</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-[#10b981] transition-colors">Salary Negotiation</a></li>
+              <li><a href="#services" className="text-gray-400 hover:text-[#10b981] transition-colors">Manufacturing AI</a></li>
+              <li><a href="#services" className="text-gray-400 hover:text-[#10b981] transition-colors">Secure Cloud Services</a></li>
+              <li><a href="#services" className="text-gray-400 hover:text-[#10b981] transition-colors">Data Analytics</a></li>
+              <li><a href="#services" className="text-gray-400 hover:text-[#10b981] transition-colors">Digital Transformation</a></li>
+              <li><a href="#services" className="text-gray-400 hover:text-[#10b981] transition-colors">Green IT Consulting</a></li>
             </ul>
           </div>
           
@@ -44,10 +44,10 @@ const Footer = () => {
             <h3 className="font-semibold text-lg mb-4">Company</h3>
             <ul className="space-y-2">
               <li><a href="#about" className="text-gray-400 hover:text-[#10b981] transition-colors">About Us</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-[#10b981] transition-colors">Sustainability</a></li>
-              <li><a href="#testimonials" className="text-gray-400 hover:text-[#10b981] transition-colors">Success Stories</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-[#10b981] transition-colors">Blog</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-[#10b981] transition-colors">Careers</a></li>
+              <li><a href="#about" className="text-gray-400 hover:text-[#10b981] transition-colors">Our History</a></li>
+              <li><a href="#about" className="text-gray-400 hover:text-[#10b981] transition-colors">Sustainability</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-[#10b981] transition-colors">Innovation Hub</a></li>
+              <li><a href="#contact" className="text-gray-400 hover:text-[#10b981] transition-colors">Contact Us</a></li>
             </ul>
           </div>
           
@@ -69,7 +69,7 @@ const Footer = () => {
           </p>
           <div className="mt-4 md:mt-0">
             <p className="text-gray-400 text-sm">
-              Powered by 100% green energy from the Ruhr region.
+              From coal mining heritage to <span className="text-green-500">zero-carbon AI</span> — Transforming the Ruhr region
             </p>
           </div>
         </div>

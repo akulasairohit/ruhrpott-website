@@ -78,9 +78,9 @@ const ContactSection = () => {
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Get Started Today</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Partner With Us</h2>
             <p className="text-xl text-gray-300">
-              Have questions or ready to take the next step in your career? Reach out to us!
+              Ready to transform your business with sustainable AI-powered IT solutions? Get in touch today!
             </p>
           </div>
           
@@ -135,7 +135,7 @@ const ContactSection = () => {
                       <FormControl>
                         <Input 
                           {...field} 
-                          placeholder="How can we help you?" 
+                          placeholder="IT Services Inquiry" 
                           className="px-4 py-3 rounded-md bg-[#1e293b] border border-gray-700 focus:border-[#10b981] focus:ring-1 focus:ring-[#10b981] outline-none transition-colors"
                         />
                       </FormControl>
@@ -154,7 +154,7 @@ const ContactSection = () => {
                         <Textarea 
                           {...field} 
                           rows={5} 
-                          placeholder="Tell us about your needs or ask a question..." 
+                          placeholder="Describe your business needs and how we can help with AI-powered IT solutions..." 
                           className="px-4 py-3 rounded-md bg-[#1e293b] border border-gray-700 focus:border-[#10b981] focus:ring-1 focus:ring-[#10b981] outline-none transition-colors"
                         />
                       </FormControl>
@@ -187,7 +187,7 @@ const ContactSection = () => {
                 
                 <div className="flex flex-col md:flex-row justify-between items-center">
                   <p className="text-sm text-gray-400 mb-4 md:mb-0 text-center md:text-left">
-                    We'll get back to you within 24 hours
+                    We'll analyze your needs and provide a sustainable IT solution
                   </p>
                   <Button 
                     type="submit" 
