@@ -1,0 +1,14 @@
+image: node:20
+
+cache:
+  paths:
+    - node_modules/
+
+pages:
+  script:
+    - npm install
+    - npm run build
+    - mv dist/public public
+  artifacts:
+    paths:
+      - public
