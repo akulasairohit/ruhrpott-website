@@ -1,0 +1,12 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M280 40C280 40 380 150 380 210C380 270 330 320 270 320C210 320 160 270 160 210C160 150 280 40 280 40Z" stroke="white" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="220" cy="160" r="15" fill="white"/>
+  <circle cx="300" cy="180" r="15" fill="white"/>
+  <path d="M220 160L260 200" stroke="white" stroke-width="15" stroke-linecap="round"/>
+  <path d="M300 180L320 250" stroke="white" stroke-width="15" stroke-linecap="round"/>
+  <path fill="white" d="M170 260L140 320H320L290 260H170Z" />
+  <path fill="white" d="M140 320L100 420H360L320 320H140Z" />
+  <line x1="190" y1="320" x2="210" y2="370" stroke="white" stroke-width="10"/>
+  <line x1="270" y1="320" x2="250" y2="370" stroke="white" stroke-width="10"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M140 70C140 70 60 120 60 200C60 240 80 270 100 290" stroke="white" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
