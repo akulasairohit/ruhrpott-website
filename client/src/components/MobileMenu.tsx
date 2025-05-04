@@ -23,25 +23,11 @@ const MobileMenu: FC<MobileMenuProps> = ({ isOpen, onClose }) => {
           Services
         </a>
         <a 
-          href="#pricing" 
-          className="hover:bg-[#1e293b] px-3 py-2 rounded-md transition-colors"
-          onClick={handleLinkClick}
-        >
-          Pricing
-        </a>
-        <a 
           href="#about" 
           className="hover:bg-[#1e293b] px-3 py-2 rounded-md transition-colors"
           onClick={handleLinkClick}
         >
           About Us
-        </a>
-        <a 
-          href="#testimonials" 
-          className="hover:bg-[#1e293b] px-3 py-2 rounded-md transition-colors"
-          onClick={handleLinkClick}
-        >
-          Success Stories
         </a>
         <a 
           href="#contact" 
