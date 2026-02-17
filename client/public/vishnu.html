@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vishnu Sahasranamam: Verse Analysis — ISCLS 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --input-bg: #0f172a;
+            --text: #e2e8f0;
+            --accent: #38bdf8;
+            --gold: #DAA520;
+            --ether: #a855f7; --air: #f59e0b; --fire: #ef4444; --water: #3b82f6; --earth: #10b981;
+            --nasal: #ec4899; --voiced: #06b6d4; --aspirated: #f97316; --length: #8b5cf6;
+            --laghu: #10b981; --guru: #ef4444;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Rajdhani', sans-serif; background: var(--bg); color: var(--text); padding: 30px; min-height: 100vh; }
+
+        /* --- Header --- */
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background: linear-gradient(90deg, rgba(139,69,19,0.25), rgba(218,165,32,0.25)); border-radius: 12px; border: 1px solid rgba(218,165,32,0.4); }
+        .header h1 { font-size: 1.8rem; background: linear-gradient(45deg, var(--gold), #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px; letter-spacing: 1px; }
+        .header .subtitle { color: #94a3b8; font-size: 0.9rem; }
+
+        /* --- Feature 1: Sanskrit Input --- */
+        .input-panel { background: var(--card-bg); border-radius: 12px; padding: 25px; margin-bottom: 30px; border: 1px solid #334155; }
+        .input-panel h2 { color: var(--gold); font-size: 1.1rem; margin-bottom: 12px; }
+        .input-panel textarea {
+            width: 100%; height: 100px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 8px; color: #fff; padding: 14px; font-size: 1.15rem; resize: vertical;
+            font-family: 'Noto Sans Devanagari', sans-serif; line-height: 1.6;
+        }
+        .input-panel textarea:focus { outline: none; border-color: var(--gold); }
+        .btn-row { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; align-items: center; }
+        .btn {
+            padding: 10px 22px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;
+            font-family: 'Rajdhani', sans-serif; font-size: 0.95rem; transition: all 0.25s;
+        }
+        .btn-primary { background: linear-gradient(45deg, var(--gold), #f4a460); color: #000; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 18px rgba(218,165,32,0.35); }
+        .btn-secondary { background: rgba(255,255,255,0.08); color: var(--text); border: 1px solid rgba(255,255,255,0.18); }
+        .btn-secondary:hover { background: rgba(255,255,255,0.15); }
+        .verse-selector { color: #94a3b8; font-size: 0.85rem; margin-left: auto; }
+
+        /* --- Two-column grid for Meru + Stats --- */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 30px; }
+        @media (max-width: 800px) { .grid-2 { grid-template-columns: 1fr; } }
+        .panel { background: var(--card-bg); border-radius: 12px; padding: 22px; border: 1px solid #334155; }
+        .panel h2 { color: var(--gold); font-size: 1.05rem; margin-bottom: 14px; }
+
+        /* --- Verse Card --- */
+        .verse-card { background: var(--card-bg); border-radius: 12px; padding: 30px; margin-bottom: 30px; border: 1px solid #334155; display: flex; flex-direction: column; gap: 22px; position: relative; }
+        .verse-id { position: absolute; top: 12px; right: 18px; font-size: 1.6em; color: #334155; font-weight: bold; opacity: 0.4; }
+
+        .sanskrit { font-family: 'Noto Sans Devanagari', sans-serif; font-size: 1.7em; color: #fff; margin-bottom: 10px; line-height: 1.6; text-align: center; }
+
+        /* Feature 2: Syllable Classification */
+        .syllable-section { display: flex; flex-direction: column; align-items: center; margin-bottom: 18px; }
+        .syllable-strip { display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; margin-top: 6px; }
+        .syl { padding: 5px 10px; border-radius: 4px; font-size: 0.88rem; text-align: center; min-width: 32px; font-weight: 600; }
+        .syl-laghu { background: var(--laghu); color: #000; opacity: 0.85; }
+        .syl-guru { background: var(--guru); color: #fff; }
+
+        /* Feature 3: Binary Pattern + Decimal */
+        .binary-section { text-align: center; margin-bottom: 16px; }
+        .binary-string { color: var(--gold); font-size: 1.35rem; letter-spacing: 5px; font-family: 'Courier New', monospace; margin-top: 4px; word-break: break-all; }
+        .decimal-value { color: #94a3b8; font-size: 0.9rem; margin-top: 4px; }
+
+        /* Feature 4: Meter Detection */
+        .meter-badge { display: inline-block; background: linear-gradient(90deg, rgba(46,204,113,0.18), rgba(231,76,60,0.18)); padding: 10px 28px; border-radius: 8px; text-align: center; margin: 8px auto 0 auto; }
+        .meter-name { font-size: 1.3rem; color: var(--gold); font-weight: bold; }
+        .meter-sub { font-size: 0.8rem; color: #64748b; }
+
+        /* Feature 6: Phonetic Spectrum — animated individual bars */
+        .spectrum-bars { margin-top: 8px; }
+        .spectrum-row { display: flex; align-items: center; margin: 7px 0; gap: 10px; }
+        .spectrum-label { width: 75px; font-size: 0.85rem; color: #94a3b8; text-align: right; }
+        .spectrum-track { flex: 1; height: 22px; background: #334155; border-radius: 4px; overflow: hidden; position: relative; }
+        .spectrum-fill { height: 100%; border-radius: 4px; transition: width 0.7s ease-out; display: flex; align-items: center; padding-left: 8px; font-size: 0.8rem; font-weight: bold; color: #fff; }
+        .spectrum-pct { margin-left: auto; padding-right: 6px; font-size: 0.75rem; }
+        .interpretation-box { background: linear-gradient(135deg, rgba(139,69,19,0.15), rgba(218,165,32,0.08)); border: 1px solid rgba(218,165,32,0.25); border-radius: 8px; padding: 14px; margin-top: 14px; font-size: 0.9rem; color: #cbd5e1; line-height: 1.5; display: none; }
+
+        /* Feature 5: Meru Prastara canvas */
+        .meru-wrap { display: flex; justify-content: center; }
+        #meruCanvas { max-width: 100%; background: rgba(0,0,0,0.2); border-radius: 8px; }
+
+        /* Feature 7: Statistics Panel */
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .stat-card { background: rgba(0,0,0,0.25); padding: 14px; border-radius: 8px; text-align: center; }
+        .stat-value { font-size: 1.6rem; color: var(--gold); font-weight: bold; }
+        .stat-label { font-size: 0.78rem; color: #64748b; margin-top: 3px; }
+
+        /* Word Meanings */
+        .meanings-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+        .meaning-item { background: var(--input-bg); border-radius: 8px; padding: 14px; border: 1px solid #334155; }
+        .word-sanskrit { color: var(--accent); font-weight: bold; font-size: 1.1em; display: block; margin-bottom: 4px; }
+        .word-meaning { color: #cbd5e1; font-size: 0.95em; line-height: 1.4; }
+        .label { font-size: 0.72em; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; display: block; }
+
+        .divider { border-top: 1px solid #334155; margin: 5px 0; }
+        .hidden { display: none; }
+
+        .footer { text-align: center; padding: 18px; margin-top: 10px; color: #475569; font-size: 0.85rem; }
+        .footer a { color: var(--gold); text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <h1>Vishnu Sahasranamam: Verse Analysis</h1>
+    <p class="subtitle">Piṅgala Binary Prosody · Pāṇini 9D Phonetic Spectrum · Meru Prastāra · ISCLS 2026</p>
+</div>
+
+<!-- ★ Feature 1: Sanskrit Input -->
+<div class="input-panel">
+    <h2>📜 Sanskrit Input</h2>
+    <textarea id="sanskritInput" placeholder="Enter Sanskrit verse in Devanagari…">विश्वं विष्णुर्वषट्कारो भूतभव्यभवत्प्रभुः ।
+भूतकृद्भूतभृद्भावो भूतात्मा भूतभावनः ॥ १॥</textarea>
+    <div class="btn-row">
+        <button class="btn btn-primary" onclick="analyzeVerse()">⚡ Analyze Verse</button>
+        <button class="btn btn-secondary" onclick="loadVerse(-1)">◀ Prev</button>
+        <button class="btn btn-secondary" onclick="loadVerse(1)">Next ▶</button>
+        <span class="verse-selector" id="verseIndicator">Verse 1 / 10</span>
+    </div>
+</div>
+
+<!-- ★ Feature 5 Meru + Feature 7 Stats — side by side -->
+<div class="grid-2">
+    <div class="panel">
+        <h2>🔺 Meru Prastāra (Pascal's Triangle)</h2>
+        <p style="color:#64748b; font-size:0.82rem; margin-bottom:10px;">Highlighted path = combinatorial identity of the detected binary pattern.</p>
+        <div class="meru-wrap">
+            <canvas id="meruCanvas" width="420" height="320"></canvas>
+        </div>
+    </div>
+    <div class="panel">
+        <h2>📊 Statistics</h2>
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-value" id="statSyllables">0</div><div class="stat-label">Total Syllables</div></div>
+            <div class="stat-card"><div class="stat-value" id="statLaghu">0</div><div class="stat-label">Laghu (Short)</div></div>
+            <div class="stat-card"><div class="stat-value" id="statGuru">0</div><div class="stat-label">Guru (Long)</div></div>
+            <div class="stat-card"><div class="stat-value" id="statRatio">0</div><div class="stat-label">L:G Ratio</div></div>
+            <div class="stat-card"><div class="stat-value" id="statDecimal">0</div><div class="stat-label">Binary → Decimal</div></div>
+            <div class="stat-card"><div class="stat-value" id="statPrime">—</div><div class="stat-label">Prime Stability</div></div>
+        </div>
+
+        <!-- ★ Feature 6: Phonetic Spectrum (animated bars) -->
+        <h2 style="margin-top:20px;">🎯 Phonetic Spectrum</h2>
+        <div class="spectrum-bars" id="spectrumBars">
+            <div class="spectrum-row"><span class="spectrum-label">Guttural</span><div class="spectrum-track"><div class="spectrum-fill" id="bar-guttural" style="width:0%;background:var(--ether)"></div></div></div>
+            <div class="spectrum-row"><span class="spectrum-label">Palatal</span><div class="spectrum-track"><div class="spectrum-fill" id="bar-palatal" style="width:0%;background:var(--air)"></div></div></div>
+            <div class="spectrum-row"><span class="spectrum-label">Cerebral</span><div class="spectrum-track"><div class="spectrum-fill" id="bar-cerebral" style="width:0%;background:var(--fire)"></div></div></div>
+            <div class="spectrum-row"><span class="spectrum-label">Dental</span><div class="spectrum-track"><div class="spectrum-fill" id="bar-dental" style="width:0%;background:var(--water)"></div></div></div>
+            <div class="spectrum-row"><span class="spectrum-label">Labial</span><div class="spectrum-track"><div class="spectrum-fill" id="bar-labial" style="width:0%;background:var(--earth)"></div></div></div>
+        </div>
+        <h2 style="margin-top:18px;font-size:0.95rem;">🔬 Articulatory Features</h2>
+        <div class="spectrum-bars">
+            <div class="spectrum-row"><span class="spectrum-label">Nasal</span><div class="spectrum-track"><div class="spectrum-fill" id="bar-nasal" style="width:0%;background:var(--nasal)"></div></div></div>
+            <div class="spectrum-row"><span class="spectrum-label">Voiced</span><div class="spectrum-track"><div class="spectrum-fill" id="bar-voiced" style="width:0%;background:var(--voiced)"></div></div></div>
+            <div class="spectrum-row"><span class="spectrum-label">Aspirated</span><div class="spectrum-track"><div class="spectrum-fill" id="bar-aspirated" style="width:0%;background:var(--aspirated)"></div></div></div>
+            <div class="spectrum-row"><span class="spectrum-label">Length</span><div class="spectrum-track"><div class="spectrum-fill" id="bar-length" style="width:0%;background:var(--length)"></div></div></div>
+        </div>
+        <div class="interpretation-box" id="interpretation"></div>
+    </div>
+</div>
+
+<!-- Verse result card -->
+<div id="verseResult" class="verse-card hidden">
+    <div class="verse-id" id="resultVerseId"></div>
+
+    <!-- Sanskrit display -->
+    <div class="sanskrit" id="resultSanskrit"></div>
+
+    <!-- ★ Feature 2: Syllable Classification -->
+    <div class="syllable-section">
+        <span class="label">Syllable Classification (Laghu / Guru)</span>
+        <div class="syllable-strip" id="syllableStrip"></div>
+    </div>
+
+    <!-- ★ Feature 3: Binary Pattern + Decimal -->
+    <div class="binary-section">
+        <span class="label">Binary Prosody Pattern</span>
+        <div class="binary-string" id="binaryString"></div>
+        <div class="decimal-value" id="decimalValue"></div>
+    </div>
+
+    <!-- ★ Feature 4: Meter Detection -->
+    <div style="text-align:center;">
+        <div class="meter-badge">
+            <div class="meter-sub">Detected Meter</div>
+            <div class="meter-name" id="meterName">—</div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ★ Feature 6b: Elemental Activation stacked bar -->
+    <div style="max-width:600px;margin:0 auto;">
+        <span class="label" style="text-align:center;">Elemental Activation</span>
+        <div style="display:flex;height:14px;border-radius:7px;overflow:hidden;background:#334155;" id="energyBar"></div>
+        <div style="display:flex;justify-content:center;gap:14px;font-size:0.82em;margin-top:6px;color:#94a3b8;font-weight:bold;">
+            <span style="color:var(--ether)">Ether</span>
+            <span style="color:var(--air)">Air</span>
+            <span style="color:var(--fire)">Fire</span>
+            <span style="color:var(--water)">Water</span>
+            <span style="color:var(--earth)">Earth</span>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ★ Word Meanings -->
+    <div>
+        <span class="label">Word Meanings</span>
+        <div class="meanings-grid" id="meaningsGrid"></div>
+    </div>
+</div>
+
+<!-- ★ Aggregate Corpus Analysis -->
+<div class="input-panel" style="margin-top:30px;">
+    <h2>📈 Aggregate Corpus Analysis — All 107 Verses</h2>
+    <p style="color:#94a3b8;font-size:0.88rem;margin-bottom:14px;">Analyze all loaded verses together to produce corpus-level statistics matching the paper's claims.</p>
+    <button class="btn btn-primary" onclick="analyzeCorpus()">⚡ Run Corpus Analysis</button>
+</div>
+<div id="corpusResult" class="hidden">
+    <!-- Corpus Stats Summary -->
+    <div class="panel" style="margin-bottom:24px;">
+        <h2>📊 Corpus Summary</h2>
+        <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);">
+            <div class="stat-card"><div class="stat-value" id="cTotalSyl">0</div><div class="stat-label">Total Syllables</div></div>
+            <div class="stat-card"><div class="stat-value" id="cTotalLaghu">0</div><div class="stat-label">Laghu (Short)</div></div>
+            <div class="stat-card"><div class="stat-value" id="cTotalGuru">0</div><div class="stat-label">Guru (Long)</div></div>
+            <div class="stat-card"><div class="stat-value" id="cRatio">0</div><div class="stat-label">L:G Ratio</div></div>
+        </div>
+    </div>
+
+    <!-- Corpus 9D Spectrum -->
+    <div class="grid-2">
+        <div class="panel">
+            <h2>🎯 Corpus Phonetic Spectrum (9D)</h2>
+            <div class="spectrum-bars">
+                <div class="spectrum-row"><span class="spectrum-label">Guttural</span><div class="spectrum-track"><div class="spectrum-fill" id="c-bar-guttural" style="width:0%;background:var(--ether)"></div></div></div>
+                <div class="spectrum-row"><span class="spectrum-label">Palatal</span><div class="spectrum-track"><div class="spectrum-fill" id="c-bar-palatal" style="width:0%;background:var(--air)"></div></div></div>
+                <div class="spectrum-row"><span class="spectrum-label">Cerebral</span><div class="spectrum-track"><div class="spectrum-fill" id="c-bar-cerebral" style="width:0%;background:var(--fire)"></div></div></div>
+                <div class="spectrum-row"><span class="spectrum-label">Dental</span><div class="spectrum-track"><div class="spectrum-fill" id="c-bar-dental" style="width:0%;background:var(--water)"></div></div></div>
+                <div class="spectrum-row"><span class="spectrum-label">Labial</span><div class="spectrum-track"><div class="spectrum-fill" id="c-bar-labial" style="width:0%;background:var(--earth)"></div></div></div>
+            </div>
+            <h2 style="margin-top:16px;font-size:0.95rem;">🔬 Articulatory Features</h2>
+            <div class="spectrum-bars">
+                <div class="spectrum-row"><span class="spectrum-label">Nasal</span><div class="spectrum-track"><div class="spectrum-fill" id="c-bar-nasal" style="width:0%;background:var(--nasal)"></div></div></div>
+                <div class="spectrum-row"><span class="spectrum-label">Voiced</span><div class="spectrum-track"><div class="spectrum-fill" id="c-bar-voiced" style="width:0%;background:var(--voiced)"></div></div></div>
+                <div class="spectrum-row"><span class="spectrum-label">Aspirated</span><div class="spectrum-track"><div class="spectrum-fill" id="c-bar-aspirated" style="width:0%;background:var(--aspirated)"></div></div></div>
+                <div class="spectrum-row"><span class="spectrum-label">Length</span><div class="spectrum-track"><div class="spectrum-fill" id="c-bar-length" style="width:0%;background:var(--length)"></div></div></div>
+            </div>
+            <div class="interpretation-box" id="corpusInterpretation" style="display:none;"></div>
+        </div>
+
+        <!-- Binary Rhythm Run-Length Analysis -->
+        <div class="panel">
+            <h2>🔢 Binary Rhythm Pattern Analysis</h2>
+            <p style="color:#64748b;font-size:0.82rem;margin-bottom:12px;">Run-length distribution of binary (L/G) motifs across all verses.</p>
+            <div id="rhythmPatterns"></div>
+            <div class="interpretation-box" id="rhythmInterpretation" style="display:none;"></div>
+        </div>
+    </div>
+
+    <!-- Per-verse summary table -->
+    <div class="panel" style="margin-top:24px;overflow-x:auto;">
+        <h2>📋 Per-Verse Summary</h2>
+        <table style="width:100%;border-collapse:collapse;font-size:0.88rem;">
+            <thead>
+                <tr style="border-bottom:2px solid #334155;">
+                    <th style="padding:10px;text-align:left;color:var(--gold);">Verse</th>
+                    <th style="padding:10px;text-align:center;color:var(--gold);">Syllables</th>
+                    <th style="padding:10px;text-align:center;color:var(--gold);">Laghu</th>
+                    <th style="padding:10px;text-align:center;color:var(--gold);">Guru</th>
+                    <th style="padding:10px;text-align:center;color:var(--gold);">L:G</th>
+                    <th style="padding:10px;text-align:center;color:var(--gold);">Meter</th>
+                    <th style="padding:10px;text-align:center;color:var(--gold);">Dental %</th>
+                    <th style="padding:10px;text-align:center;color:var(--gold);">Labial %</th>
+                </tr>
+            </thead>
+            <tbody id="corpusTableBody"></tbody>
+        </table>
+    </div>
+</div>
+
+<div class="footer">
+    ISCLS 2026 Demo · Based on Piṅgala's Chandaḥśāstra & Pāṇini's Aṣṭādhyāyī<br>
+    <a href="https://ruhrpott.ai/">ruhrpott.ai</a>
+</div>
+
+<script>
+// ============================================================
+// DATA: 10 verses with Sanskrit, IAST, and word meanings
+// ============================================================
+const VERSES = [
+  { id:1, sanskrit:"विश्वं विष्णुर्वषट्कारो भूतभव्यभवत्प्रभुः ।\nभूतकृद्भूतभृद्भावो भूतात्मा भूतभावनः ॥ १॥",
+    meanings:[["viśvaṁ","The Universe"],["viṣṇuḥ","The Pervader"],["vaṣaṭkāraḥ","The Invocation"],["bhūta-bhavya-bhavat-prabhuḥ","Lord of Past, Future, Present"],["bhūtakṛt","Creator of Beings"],["bhūtabhṛd","Sustainer of Beings"],["bhāvaḥ","Becoming"],["bhūtātmā","Soul of Beings"],["bhūtabhāvanaḥ","Nourisher"]]},
+  { id:2, sanskrit:"पूतात्मा परमात्मा च मुक्तानां परमा गतिः ।\nअव्ययः पुरुषः साक्षी क्षेत्रज्ञोऽक्षर एव च ॥ २॥",
+    meanings:[["pūtātmā","Pure Self"],["paramātmā","Supreme Self"],["muktānāṁ paramā gatiḥ","Ultimate Goal of Liberated"],["avyayaḥ","Imperishable"],["puruṣaḥ","The Person"],["sākṣī","The Witness"],["kṣetrajñaḥ","Knower of the Field"],["akṣara","Indestructible"]]},
+  { id:3, sanskrit:"योगो योगविदां नेता प्रधानपुरुषेश्वरः ।\nनारसिंहवपुः श्रीमान् केशवः पुरुषोत्तमः ॥ ३॥",
+    meanings:[["yogaḥ","Union"],["yogavidāṁ netā","Leader of Knowers of Yoga"],["pradhāna-puruṣeśvaraḥ","Lord of Matter & Spirit"],["nārasiṁhavapuḥ","Man-Lion Form"],["śrīmān","Possessor of Glory"],["keśavaḥ","Slayer of Keshi"],["puruṣottamaḥ","Supreme Person"]]},
+  { id:4, sanskrit:"सर्वः शर्वः शिवः स्थाणुर्भूतादिर्निधिरव्ययः ।\nसम्भवो भावनो भर्ता प्रभवः प्रभुरीश्वरः ॥ ४॥",
+    meanings:[["sarvaḥ","The All"],["śarvaḥ","The Destroyer"],["śivaḥ","The Auspicious One"],["sthāṇuḥ","The Firm / Immovable Pillar"],["bhūtādiḥ","Source of Elements"],["nidhiravyayaḥ","Imperishable Treasure"]]},
+  { id:5, sanskrit:"स्वयम्भूः शम्भुरादित्यः पुष्कराक्षो महास्वनः ।\nअनादिनिधनो धाता विधाता धातुरुत्तमः ॥ ५॥",
+    meanings:[["svayaṁbhūḥ","Self-Born"],["śaṁbhuḥ","Bestower of Happiness"],["ādityaḥ","Son of Aditi / The Sun"],["puṣkarākṣaḥ","Lotus-Eyed"],["mahāsvanaḥ","Great Sound"]]},
+  { id:6, sanskrit:"अप्रमेयो हृषीकेशः पद्मनाभोऽमरप्रभुः ।\nविश्वकर्मा मनुस्त्वष्टा स्थविष्ठः स्थविरो ध्रुवः ॥ ६॥",
+    meanings:[["aprameyaḥ","Immeasurable"],["hṛṣīkeśaḥ","Master of Senses"],["padmanābhaḥ","Lotus-Navel"],["amaraprabhuḥ","Lord of Immortals"],["viśvakarmā","Creator of Universe"],["manuḥ","The Thinker"]]},
+  { id:7, sanskrit:"अग्राह्यः शाश्वतः कृष्णो लोहिताक्षः प्रतर्दनः ।\nप्रभूतस्त्रिककुब्धाम पवित्रं मङ्गलं परम् ॥ ७॥",
+    meanings:[["agrāhyaḥ","Unknowable"],["śāśvataḥ","Eternal"],["kṛṣṇaḥ","The Dark One"],["lohitākṣaḥ","Red-Eyed"],["pratardanaḥ","The Destroyer"],["pavitram","The Pure"],["maṅgalaṁ param","Supreme Auspiciousness"]]},
+  { id:8, sanskrit:"ईशानः प्राणदः प्राणो ज्येष्ठः श्रेष्ठः प्रजापतिः ।\nहिरण्यगर्भो भूगर्भो माधवो मधुसूदनः ॥ ८॥",
+    meanings:[["īśānaḥ","The Ruler"],["prāṇadaḥ","Giver of Life-breath"],["prāṇaḥ","The Life-force"],["jyeṣṭhaḥ","The Eldest"],["śreṣṭhaḥ","The Best"],["prajāpatiḥ","Lord of Creatures"],["hiraṇyagarbhaḥ","Golden Womb"],["mādhavaḥ","Consort of Lakshmi"],["madhusūdanaḥ","Slayer of Madhu"]]},
+  { id:9, sanskrit:"ईश्वरो विक्रमी धन्वी मेधावी विक्रमः क्रमः ।\nअनुत्तमो दुराधर्षः कृतज्ञः कृतिरात्मवान् ॥ ९॥",
+    meanings:[["īśvaraḥ","The Controller"],["vikramī","The Valiant"],["dhanvī","The Archer"],["medhāvī","The Wise"],["vikramaḥ","Prowess"],["kramaḥ","Progression"],["anuttamaḥ","The Unsurpassed"],["durādharṣaḥ","The Invincible"],["kṛtajñaḥ","The Grateful"]]},
+  { id:10, sanskrit:"सुरेशः शरणं शर्म विश्वरेताः प्रजाभवः ।\nअहः संवत्सरो व्यालः प्रत्ययः सर्वदर्शनः ॥ १०॥",
+    meanings:[["sureśaḥ","Lord of the Gods"],["śaraṇam","Refuge"],["śarma","Bliss"],["viśvaretāḥ","Seed of the Universe"],["prajābhavaḥ","Source of Beings"],["ahaḥ","The Day"],["saṁvatsaraḥ","The Year"],["pratyayaḥ","Conviction"],["sarvadarśanaḥ","All-seeing"]]}
+];
+
+// ============================================================
+// CORPUS: All 107 Vishnu Sahasranama stotram verses (text only)
+// ============================================================
+const CORPUS_VERSES = [
+  {id:1, text:'विश्वं विष्णुर्वषट्कारो भूतभव्यभवत्प्रभुः ।\nभूतकृद्भूतभृद्भावो भूतात्मा भूतभावनः'},
+  {id:2, text:'पूतात्मा परमात्मा च मुक्तानां परमा गतिः ।\nअव्ययः पुरुषः साक्षी क्षेत्रज्ञोऽक्षर एव च'},
+  {id:3, text:'योगो योगविदां नेता प्रधानपुरुषेश्वरः ।\nनारसिंहवपुः श्रीमान् केशवः पुरुषोत्तमः'},
+  {id:4, text:'सर्वः शर्वः शिवः स्थाणुर्भूतादिर्निधिरव्ययः ।\nसम्भवो भावनो भर्ता प्रभवः प्रभुरीश्वरः'},
+  {id:5, text:'स्वयम्भूः शम्भुरादित्यः पुष्कराक्षो महास्वनः ।\nअनादिनिधनो धाता विधाता धातुरुत्तमः'},
+  {id:6, text:'अप्रमेयो हृषीकेशः पद्मनाभोऽमरप्रभुः ।\nविश्वकर्मा मनुस्त्वष्टा स्थविष्ठः स्थविरो ध्रुवः'},
+  {id:7, text:'अग्राह्यः शाश्वतः कृष्णो लोहिताक्षः प्रतर्दनः ।\nप्रभूतस्त्रिककुब्धाम पवित्रं मङ्गलं परम्'},
+  {id:8, text:'ईशानः प्राणदः प्राणो ज्येष्ठः श्रेष्ठः प्रजापतिः ।\nहिरण्यगर्भो भूगर्भो माधवो मधुसूदनः'},
+  {id:9, text:'ईश्वरो विक्रमी धन्वी मेधावी विक्रमः क्रमः ।\nअनुत्तमो दुराधर्षः कृतज्ञः कृतिरात्मवान्'},
+  {id:10, text:'सुरेशः शरणं शर्म विश्वरेताः प्रजाभवः ।\nअहः संवत्सरो व्यालः प्रत्ययः सर्वदर्शनः'},
+  {id:11, text:'अजः सर्वेश्वरः सिद्धः सिद्धिः सर्वादिरच्युतः ।\nवृषाकपिरमेयात्मा सर्वयोगविनिःसृतः'},
+  {id:12, text:'वसुर्वसुमनाः सत्यः समात्माऽसम्मितः समः ।\nअमोघः पुण्डरीकाक्षो वृषकर्मा वृषाकृतिः'},
+  {id:13, text:'रुद्रो बहुशिरा बभ्रुर्विश्वयोनिः शुचिश्रवाः ।\nअमृतः शाश्वतस्थाणुर्वरारोहो महातपाः'},
+  {id:14, text:'सर्वगः सर्वविद्भानुर्विष्वक्सेनो जनार्दनः ।\nवेदो वेदविदव्यङ्गो वेदाङ्गो वेदवित् कविः'},
+  {id:15, text:'लोकाध्यक्षः सुराध्यक्षो धर्माध्यक्षः कृताकृतः ।\nचतुरात्मा चतुर्व्यूहश्चतुर्दंष्ट्रश्चतुर्भुजः'},
+  {id:16, text:'भ्राजिष्णुर्भोजनं भोक्ता सहिष्णुर्जगदादिजः ।\nअनघो विजयो जेता विश्वयोनिः पुनर्वसुः'},
+  {id:17, text:'उपेन्द्रो वामनः प्रांशुरमोघः शुचिरूर्जितः ।\nअतीन्द्रः सङ्ग्रहः सर्गो धृतात्मा नियमो यमः'},
+  {id:18, text:'वेद्यो वैद्यः सदायोगी वीरहा माधवो मधुः ।\nअतीन्द्रियो महामायो महोत्साहो महाबलः'},
+  {id:19, text:'महाबुद्धिर्महावीर्यो महाशक्तिर्महाद्युतिः ।\nअनिर्देश्यवपुः श्रीमानमेयात्मा महाद्रिधृक्'},
+  {id:20, text:'महेष्वासो महीभर्ता श्रीनिवासः सतां गतिः ।\nअनिरुद्धः सुरानन्दो गोविन्दो गोविदां पतिः'},
+  {id:21, text:'मरीचिर्दमनो हंसः सुपर्णो भुजगोत्तमः ।\nहिरण्यनाभः सुतपाः पद्मनाभः प्रजापतिः'},
+  {id:22, text:'अमृत्युः सर्वदृक् सिंहः सन्धाता सन्धिमान् स्थिरः ।\nअजो दुर्मर्षणः शास्ता विश्रुतात्मा सुरारिहा'},
+  {id:23, text:'गुरुर्गुरुतमो धाम सत्यः सत्यपराक्रमः ।\nनिमिषोऽनिमिषः स्रग्वी वाचस्पतिरुदारधीः'},
+  {id:24, text:'अग्रणीर्ग्रामणीः श्रीमान् न्यायो नेता समीरणः ।\nसहस्रमूर्धा विश्वात्मा सहस्राक्षः सहस्रपात्'},
+  {id:25, text:'आवर्तनो निवृत्तात्मा संवृतः सम्प्रमर्दनः ।\nअहः संवर्तको वह्निरनिलो धरणीधरः'},
+  {id:26, text:'सुप्रसादः प्रसन्नात्मा विश्वधृग्विश्वभुग्विभुः ।\nसत्कर्ता सत्कृतः साधुर्जह्नुर्नारायणो नरः'},
+  {id:27, text:'असङ्ख्येयोऽप्रमेयात्मा विशिष्टः शिष्टकृच्छुचिः ।\nसिद्धार्थः सिद्धसङ्कल्पः सिद्धिदः सिद्धिसाधनः'},
+  {id:28, text:'वृषाही वृषभो विष्णुर्वृषपर्वा वृषोदरः ।\nवर्धनो वर्धमानश्च विविक्तः श्रुतिसागरः'},
+  {id:29, text:'सुभुजो दुर्धरो वाग्मी महेन्द्रो वसुदो वसुः ।\nनैकरूपो बृहद्रूपः शिपिविष्टः प्रकाशनः'},
+  {id:30, text:'ओजस्तेजोद्युतिधरः प्रकाशात्मा प्रतापनः ।\nऋद्धः स्पष्टाक्षरो मन्त्रश्चन्द्रांशुर्भास्करद्युतिः'},
+  {id:31, text:'अमृतांशूद्भवो भानुः शशबिन्दुः सुरेश्वरः ।\nऔषधं जगतः सेतुः सत्यधर्मपराक्रमः'},
+  {id:32, text:'भूतभव्यभवन्नाथः पवनः पावनोऽनलः ।\nकामहा कामकृत्कान्तः कामः कामप्रदः प्रभुः'},
+  {id:33, text:'युगादिकृद्युगावर्तो नैकमायो महाशनः ।\nअदृश्यो व्यक्तरूपश्च सहस्रजिदनन्तजित्'},
+  {id:34, text:'इष्टोऽविशिष्टः शिष्टेष्टः शिखण्डी नहुषो वृषः ।\nक्रोधहा क्रोधकृत्कर्ता विश्वबाहुर्महीधरः'},
+  {id:35, text:'अच्युतः प्रथितः प्राणः प्राणदो वासवानुजः ।\nअपांनिधिरधिष्ठानमप्रमत्तः प्रतिष्ठितः'},
+  {id:36, text:'स्कन्दः स्कन्दधरो धुर्यो वरदो वायुवाहनः ।\nवासुदेवो बृहद्भानुरादिदेवः पुरन्दरः'},
+  {id:37, text:'अशोकस्तारणस्तारः शूरः शौरिर्जनेश्वरः ।\nअनुकूलः शतावर्तः पद्मी पद्मनिभेक्षणः'},
+  {id:38, text:'पद्मनाभोऽरविन्दाक्षः पद्मगर्भः शरीरभृत् ।\nमहर्द्धिरृद्धो वृद्धात्मा महाक्षो गरुडध्वजः'},
+  {id:39, text:'अतुलः शरभो भीमः समयज्ञो हविर्हरिः ।\nसर्वलक्षणलक्षण्यो लक्ष्मीवान् समितिञ्जयः'},
+  {id:40, text:'विक्षरो रोहितो मार्गो हेतुर्दामोदरः सहः ।\nमहीधरो महाभागो वेगवानमिताशनः'},
+  {id:41, text:'उद्भवः क्षोभणो देवः श्रीगर्भः परमेश्वरः ।\nकरणं कारणं कर्ता विकर्ता गहनो गुहः'},
+  {id:42, text:'व्यवसायो व्यवस्थानः संस्थानः स्थानदो ध्रुवः ।\nपरर्द्धिः परमस्पष्टस्तुष्टः पुष्टः शुभेक्षणः'},
+  {id:43, text:'रामो विरामो विरजो मार्गो नेयो नयोऽनयः । \nवीरः शक्तिमतां श्रेष्ठो धर्मो धर्मविदुत्तमः'},
+  {id:44, text:'वैकुण्ठः पुरुषः प्राणः प्राणदः प्रणवः पृथुः ।\nहिरण्यगर्भः शत्रुघ्नो व्याप्तो वायुरधोक्षजः'},
+  {id:45, text:'ऋतुः सुदर्शनः कालः परमेष्ठी परिग्रहः ।\nउग्रः संवत्सरो दक्षो विश्रामो विश्वदक्षिणः'},
+  {id:46, text:'विस्तारः स्थावरस्थाणुः प्रमाणं बीजमव्ययम् ।\nअर्थोऽनर्थो महाकोशो महाभोगो महाधनः'},
+  {id:47, text:'अनिर्विण्णः स्थविष्ठोऽभूर्धर्मयूपो महामखः ।\nनक्षत्रनेमिर्नक्षत्री क्षमः क्षामः समीहनः'},
+  {id:48, text:'यज्ञ इज्यो महेज्यश्च क्रतुः सत्रं सतां गतिः ।\nसर्वदर्शी विमुक्तात्मा सर्वज्ञो ज्ञानमुत्तमम्'},
+  {id:49, text:'सुव्रतः सुमुखः सूक्ष्मः सुघोषः सुखदः सुहृत् ।\nमनोहरो जितक्रोधो वीरबाहुर्विदारणः'},
+  {id:50, text:'स्वापनः स्ववशो व्यापी नैकात्मा नैककर्मकृत् ।\nवत्सरो वत्सलो वत्सी रत्नगर्भो धनेश्वरः'},
+  {id:51, text:'धर्मगुब्धर्मकृद्धर्मी सदसत्क्षरमक्षरम् ।\nअविज्ञाता सहस्रांशुर्विधाता कृतलक्षणः'},
+  {id:52, text:'गभस्तिनेमिः सत्त्वस्थः सिंहो भूतमहेश्वरः ।\nआदिदेवो महादेवो देवेशो देवभृद्गुरुः'},
+  {id:53, text:'उत्तरो गोपतिर्गोप्ता ज्ञानगम्यः पुरातनः ।\nशरीरभूतभृद्भोक्ता कपीन्द्रो भूरिदक्षिणः'},
+  {id:54, text:'सोमपोऽमृतपः सोमः पुरुजित्पुरुसत्तमः ।\nविनयो जयः सत्यसन्धो दाशार्हः सात्वताम्पतिः'},
+  {id:55, text:'जीवो विनयिता साक्षी मुकुन्दोऽमितविक्रमः ।\nअम्भोनिधिरनन्तात्मा महोदधिशयोऽन्तकः'},
+  {id:56, text:'अजो महार्हः स्वाभाव्यो जितामित्रः प्रमोदनः ।\nआनन्दो नन्दनो नन्दः सत्यधर्मा त्रिविक्रमः'},
+  {id:57, text:'महर्षिः कपिलाचार्यः कृतज्ञो मेदिनीपतिः ।\nत्रिपदस्त्रिदशाध्यक्षो महाश‍ृङ्गः कृतान्तकृत्'},
+  {id:58, text:'महावराहो गोविन्दः सुषेणः कनकाङ्गदी ।\nगुह्यो गभीरो गहनो गुप्तश्चक्रगदाधरः'},
+  {id:59, text:'वेधाः स्वाङ्गोऽजितः कृष्णो दृढः सङ्कर्षणोऽच्युतः ।\nवरुणो वारुणो वृक्षः पुष्कराक्षो महामनाः'},
+  {id:60, text:'भगवान् भगहाऽऽनन्दी वनमाली हलायुधः ।\nआदित्यो ज्योतिरादित्यः सहिष्णुर्गतिसत्तमः'},
+  {id:61, text:'सुधन्वा खण्डपरशुर्दारुणो द्रविणप्रदः ।\nदिवस्पृक् सर्वदृग्व्यासो वाचस्पतिरयोनिजः'},
+  {id:62, text:'त्रिसामा सामगः साम निर्वाणं भेषजं भिषक् ।\nसंन्यासकृच्छमः शान्तो निष्ठा शान्तिः परायणम्'},
+  {id:63, text:'शुभाङ्गः शान्तिदः स्रष्टा कुमुदः कुवलेशयः ।\nगोहितो गोपतिर्गोप्ता वृषभाक्षो वृषप्रियः'},
+  {id:64, text:'अनिवर्ती निवृत्तात्मा सङ्क्षेप्ता क्षेमकृच्छिवः ।\nश्रीवत्सवक्षाः श्रीवासः श्रीपतिः श्रीमतांवरः'},
+  {id:65, text:'श्रीदः श्रीशः श्रीनिवासः श्रीनिधिः श्रीविभावनः ।\nश्रीधरः श्रीकरः श्रेयः श्रीमाँल्लोकत्रयाश्रयः'},
+  {id:66, text:'स्वक्षः स्वङ्गः शतानन्दो नन्दिर्ज्योतिर्गणेश्वरः ।\nविजितात्माऽविधेयात्मा सत्कीर्तिश्छिन्नसंशयः'},
+  {id:67, text:'उदीर्णः सर्वतश्चक्षुरनीशः शाश्वतस्थिरः ।\nभूशयो भूषणो भूतिर्विशोकः शोकनाशनः'},
+  {id:68, text:'अर्चिष्मानर्चितः कुम्भो विशुद्धात्मा विशोधनः ।\nअनिरुद्धोऽप्रतिरथः प्रद्युम्नोऽमितविक्रमः'},
+  {id:69, text:'कालनेमिनिहा वीरः शौरिः शूरजनेश्वरः ।\nत्रिलोकात्मा त्रिलोकेशः केशवः केशिहा हरिः'},
+  {id:70, text:'कामदेवः कामपालः कामी कान्तः कृतागमः ।\nअनिर्देश्यवपुर्विष्णुर्वीरोऽनन्तो धनञ्जयः'},
+  {id:71, text:'ब्रह्मण्यो ब्रह्मकृद् ब्रह्मा ब्रह्म ब्रह्मविवर्धनः ।\nब्रह्मविद् ब्राह्मणो ब्रह्मी ब्रह्मज्ञो ब्राह्मणप्रियः'},
+  {id:72, text:'महाक्रमो महाकर्मा महातेजा महोरगः ।\nमहाक्रतुर्महायज्वा महायज्ञो महाहविः'},
+  {id:73, text:'स्तव्यः स्तवप्रियः स्तोत्रं स्तुतिः स्तोता रणप्रियः ।\nपूर्णः पूरयिता पुण्यः पुण्यकीर्तिरनामयः'},
+  {id:74, text:'मनोजवस्तीर्थकरो वसुरेता वसुप्रदः ।\nवसुप्रदो वासुदेवो वसुर्वसुमना हविः'},
+  {id:75, text:'सद्गतिः सत्कृतिः सत्ता सद्भूतिः सत्परायणः ।\nशूरसेनो यदुश्रेष्ठः सन्निवासः सुयामुनः'},
+  {id:76, text:'भूतावासो वासुदेवः सर्वासुनिलयोऽनलः ।\nदर्पहा दर्पदो दृप्तो दुर्धरोऽथापराजितः'},
+  {id:77, text:'विश्वमूर्तिर्महामूर्तिर्दीप्तमूर्तिरमूर्तिमान् ।\nअनेकमूर्तिरव्यक्तः शतमूर्तिः शताननः'},
+  {id:78, text:'एको नैकः सवः कः किं यत् तत्पदमनुत्तमम् ।\nलोकबन्धुर्लोकनाथो माधवो भक्तवत्सलः'},
+  {id:79, text:'सुवर्णवर्णो हेमाङ्गो वराङ्गश्चन्दनाङ्गदी ।\nवीरहा विषमः शून्यो घृताशीरचलश्चलः'},
+  {id:80, text:'अमानी मानदो मान्यो लोकस्वामी त्रिलोकधृक् ।\nसुमेधा मेधजो धन्यः सत्यमेधा धराधरः'},
+  {id:81, text:'तेजोवृषो द्युतिधरः सर्वशस्त्रभृतां वरः ।\nप्रग्रहो निग्रहो व्यग्रो नैकश‍ृङ्गो गदाग्रजः'},
+  {id:82, text:'चतुर्मूर्तिश्चतुर्बाहुश्चतुर्व्यूहश्चतुर्गतिः ।\nचतुरात्मा चतुर्भावश्चतुर्वेदविदेकपात्'},
+  {id:83, text:'समावर्तोऽनिवृत्तात्मा दुर्जयो दुरतिक्रमः ।\nदुर्लभो दुर्गमो दुर्गो दुरावासो दुरारिहा'},
+  {id:84, text:'शुभाङ्गो लोकसारङ्गः सुतन्तुस्तन्तुवर्धनः ।\nइन्द्रकर्मा महाकर्मा कृतकर्मा कृतागमः'},
+  {id:85, text:'उद्भवः सुन्दरः सुन्दो रत्ननाभः सुलोचनः ।\nअर्को वाजसनः श‍ृङ्गी जयन्तः सर्वविज्जयी'},
+  {id:86, text:'सुवर्णबिन्दुरक्षोभ्यः सर्ववागीश्वरेश्वरः ।\nमहाह्रदो महागर्तो महाभूतो महानिधिः'},
+  {id:87, text:'कुमुदः कुन्दरः कुन्दः पर्जन्यः पावनोऽनिलः ।\nअमृताशोऽमृतवपुः सर्वज्ञः सर्वतोमुखः'},
+  {id:88, text:'सुलभः सुव्रतः सिद्धः शत्रुजिच्छत्रुतापनः ।\nन्यग्रोधोऽदुम्बरोऽश्वत्थश्चाणूरान्ध्रनिषूदनः'},
+  {id:89, text:'सहस्रार्चिः सप्तजिह्वः सप्तैधाः सप्तवाहनः ।\nअमूर्तिरनघोऽचिन्त्यो भयकृद्भयनाशनः'},
+  {id:90, text:'अणुर्बृहत्कृशः स्थूलो गुणभृन्निर्गुणो महान् ।\nअधृतः स्वधृतः स्वास्यः प्राग्वंशो वंशवर्धनः'},
+  {id:91, text:'भारभृत् कथितो योगी योगीशः सर्वकामदः ।\nआश्रमः श्रमणः क्षामः सुपर्णो वायुवाहनः'},
+  {id:92, text:'धनुर्धरो धनुर्वेदो दण्डो दमयिता दमः ।\nअपराजितः सर्वसहो नियन्ताऽनियमोऽयमः'},
+  {id:93, text:'सत्त्ववान् सात्त्विकः सत्यः सत्यधर्मपरायणः ।\nअभिप्रायः प्रियार्होऽर्हः प्रियकृत् प्रीतिवर्धनः'},
+  {id:94, text:'विहायसगतिर्ज्योतिः सुरुचिर्हुतभुग्विभुः ।\nरविर्विरोचनः सूर्यः सविता रविलोचनः'},
+  {id:95, text:'अनन्तो हुतभुग्भोक्ता सुखदो नैकजोऽग्रजः ।\nअनिर्विण्णः सदामर्षी लोकाधिष्ठानमद्भुतः'},
+  {id:96, text:'सनात्सनातनतमः कपिलः कपिरव्ययः ।\nस्वस्तिदः स्वस्तिकृत्स्वस्ति स्वस्तिभुक्स्वस्तिदक्षिणः'},
+  {id:97, text:'अरौद्रः कुण्डली चक्री विक्रम्यूर्जितशासनः ।\nशब्दातिगः शब्दसहः शिशिरः शर्वरीकरः'},
+  {id:98, text:'अक्रूरः पेशलो दक्षो दक्षिणः क्षमिणांवरः ।\nविद्वत्तमो वीतभयः पुण्यश्रवणकीर्तनः'},
+  {id:99, text:'उत्तारणो दुष्कृतिहा पुण्यो दुःस्वप्ननाशनः ।\nवीरहा रक्षणः सन्तो जीवनः पर्यवस्थितः'},
+  {id:100, text:'अनन्तरूपोऽनन्तश्रीर्जितमन्युर्भयापहः ।\nचतुरश्रो गभीरात्मा विदिशो व्यादिशो दिशः'},
+  {id:101, text:'अनादिर्भूर्भुवो लक्ष्मीः सुवीरो रुचिराङ्गदः ।\nजननो जनजन्मादिर्भीमो भीमपराक्रमः'},
+  {id:102, text:'आधारनिलयोऽधाता पुष्पहासः प्रजागरः ।\nऊर्ध्वगः सत्पथाचारः प्राणदः प्रणवः पणः'},
+  {id:103, text:'प्रमाणं प्राणनिलयः प्राणभृत्प्राणजीवनः ।\nतत्त्वं तत्त्वविदेकात्मा जन्ममृत्युजरातिगः'},
+  {id:104, text:'भूर्भुवःस्वस्तरुस्तारः सविता प्रपितामहः ।\nयज्ञो यज्ञपतिर्यज्वा यज्ञाङ्गो यज्ञवाहनः'},
+  {id:105, text:'यज्ञभृद् यज्ञकृद् यज्ञी यज्ञभुग् यज्ञसाधनः ।\nयज्ञान्तकृद् यज्ञगुह्यमन्नमन्नाद एव च'},
+  {id:106, text:'आत्मयोनिः स्वयञ्जातो वैखानः सामगायनः ।\nदेवकीनन्दनः स्रष्टा क्षितीशः पापनाशनः'},
+  {id:107, text:'शङ्खभृन्नन्दकी चक्री शार्ङ्गधन्वा गदाधरः ।\nरथाङ्गपाणिरक्षोभ्यः सर्वप्रहरणायुधः'},
+];
+
+let currentVerseIdx = 0;
+
+// ============================================================
+// PHONETIC MAP (9-dim articulatory vectors for Devanagari)
+// Dims 0-4: Place of Articulation (Guttural, Palatal, Cerebral, Dental, Labial)
+// Dim 5: Nasal   Dim 6: Voiced   Dim 7: Aspirated   Dim 8: Length (long)
+// ============================================================
+const PHONETIC_MAP = {
+    // Vowels — all voiced (dim6=1), nasality/aspiration 0
+    'अ':[1,0,0,0,0, 0,1,0,0],'आ':[1,0,0,0,0, 0,1,0,1],
+    'इ':[0,1,0,0,0, 0,1,0,0],'ई':[0,1,0,0,0, 0,1,0,1],
+    'उ':[0,0,0,0,1, 0,1,0,0],'ऊ':[0,0,0,0,1, 0,1,0,1],
+    'ऋ':[0,0,1,0,0, 0,1,0,0],
+    'ए':[0,1,0,0,0, 0,1,0,1],'ऐ':[0,1,0,0,0, 0,1,0,1],
+    'ओ':[0,0,0,0,1, 0,1,0,1],'औ':[0,0,0,0,1, 0,1,0,1],
+    // Gutturals (k-varga)
+    'क':[1,0,0,0,0, 0,0,0,0],'ख':[1,0,0,0,0, 0,0,1,0],
+    'ग':[1,0,0,0,0, 0,1,0,0],'घ':[1,0,0,0,0, 0,1,1,0],'ङ':[1,0,0,0,0, 1,1,0,0],
+    // Palatals (c-varga)
+    'च':[0,1,0,0,0, 0,0,0,0],'छ':[0,1,0,0,0, 0,0,1,0],
+    'ज':[0,1,0,0,0, 0,1,0,0],'झ':[0,1,0,0,0, 0,1,1,0],'ञ':[0,1,0,0,0, 1,1,0,0],
+    // Cerebrals / Retroflexes (T-varga)
+    'ट':[0,0,1,0,0, 0,0,0,0],'ठ':[0,0,1,0,0, 0,0,1,0],
+    'ड':[0,0,1,0,0, 0,1,0,0],'ढ':[0,0,1,0,0, 0,1,1,0],'ण':[0,0,1,0,0, 1,1,0,0],
+    // Dentals (t-varga)
+    'त':[0,0,0,1,0, 0,0,0,0],'थ':[0,0,0,1,0, 0,0,1,0],
+    'द':[0,0,0,1,0, 0,1,0,0],'ध':[0,0,0,1,0, 0,1,1,0],'न':[0,0,0,1,0, 1,1,0,0],
+    // Labials (p-varga)
+    'प':[0,0,0,0,1, 0,0,0,0],'फ':[0,0,0,0,1, 0,0,1,0],
+    'ब':[0,0,0,0,1, 0,1,0,0],'भ':[0,0,0,0,1, 0,1,1,0],'म':[0,0,0,0,1, 1,1,0,0],
+    // Semi-vowels — all voiced
+    'य':[0,1,0,0,0, 0,1,0,0],'र':[0,0,1,0,0, 0,1,0,0],
+    'ल':[0,0,0,1,0, 0,1,0,0],'व':[0,0,0,0,1, 0,1,0,0],
+    // Sibilants — unvoiced
+    'श':[0,1,0,0,0, 0,0,0,0],'ष':[0,0,1,0,0, 0,0,0,0],'स':[0,0,0,1,0, 0,0,0,0],
+    // h — voiced (prāṇa)
+    'ह':[1,0,0,0,0, 0,1,0,0]
+};
+
+const SHORT_VOWELS  = new Set(['अ','इ','उ','ऋ','ऌ']);
+const LONG_VOWELS   = new Set(['आ','ई','ऊ','ॠ','ए','ऐ','ओ','औ']);
+const MATRA_LONG    = new Set(['ा','ी','ू','ृ','ॄ','े','ै','ो','ौ']);
+const MATRA_SHORT   = new Set(['ि','ु']);
+const ANUSVARA_VIS  = new Set(['ं','ः']);
+const HALANT        = '्';
+const CONSONANTS    = new Set(Object.keys(PHONETIC_MAP).filter(c => !SHORT_VOWELS.has(c) && !LONG_VOWELS.has(c)));
+
+// ============================================================
+// PROSODY ENGINE
+// ============================================================
+function analyzeProsody(text) {
+    const clean = text.replace(/[।॥\d०-९\s\n\r|\.,;!?\-–—()[\]{}'"]/g, '');
+    const chars = [...clean];
+    const syllables = [];
+    let i = 0;
+
+    while (i < chars.length) {
+        const ch = chars[i];
+        if (ch === HALANT) { i++; continue; }
+        if (MATRA_LONG.has(ch) || MATRA_SHORT.has(ch)) { i++; continue; }
+        if (ANUSVARA_VIS.has(ch)) { i++; continue; }
+
+        let isGuru = false;
+        let label = ch;
+
+        if (LONG_VOWELS.has(ch)) {
+            isGuru = true;
+        } else if (SHORT_VOWELS.has(ch)) {
+            if (i+1 < chars.length && ANUSVARA_VIS.has(chars[i+1])) { isGuru = true; label += chars[i+1]; }
+            else { isGuru = false; }
+        } else if (CONSONANTS.has(ch) || PHONETIC_MAP[ch]) {
+            const next = chars[i+1] || '';
+            if (MATRA_LONG.has(next)) {
+                isGuru = true; label += next;
+            } else if (MATRA_SHORT.has(next)) {
+                label += next;
+                const afterMatra = chars[i+2] || '';
+                if (ANUSVARA_VIS.has(afterMatra)) { isGuru = true; label += afterMatra; }
+                else if (i+2 < chars.length && CONSONANTS.has(chars[i+2]) && i+3 < chars.length && chars[i+3] === HALANT) {
+                    isGuru = true;
+                } else { isGuru = false; }
+            } else if (next === HALANT) {
+                i++; continue;
+            } else if (ANUSVARA_VIS.has(next)) {
+                isGuru = true; label += next;
+            } else {
+                if (i+1 < chars.length && CONSONANTS.has(chars[i+1]) && i+2 < chars.length && chars[i+2] === HALANT) {
+                    isGuru = true;
+                } else { isGuru = false; }
+            }
+        } else { i++; continue; }
+
+        syllables.push({ text: label, isGuru });
+        i++;
+    }
+    return syllables;
+}
+
+// ============================================================
+// PHONETIC SPECTRUM (9-dimensional)
+// ============================================================
+const DIM_NAMES = ['Guttural','Palatal','Cerebral','Dental','Labial','Nasal','Voiced','Aspirated','Length'];
+const DIM_COUNT = 9;
+
+function analyzeSpectrum(text) {
+    const counts = new Array(DIM_COUNT).fill(0);
+    let total = 0;
+    for (const ch of text) {
+        const vec = PHONETIC_MAP[ch];
+        if (vec) { total++; for (let d=0;d<DIM_COUNT;d++) counts[d]+=vec[d]; }
+    }
+    if (total === 0) return new Array(DIM_COUNT).fill(0);
+    return counts.map(c => (c/total)*100);
+}
+
+// ============================================================
+// METER DETECTION
+// ============================================================
+function detectMeter(syllableCount) {
+    if (syllableCount === 6)  return 'Gāyatrī (6)';
+    if (syllableCount === 7)  return 'Uṣṇih (7)';
+    if (syllableCount === 8)  return 'Anuṣṭubh (8)';
+    if (syllableCount === 9)  return 'Bṛhatī (9)';
+    if (syllableCount === 11) return 'Triṣṭubh (11)';
+    if (syllableCount === 12) return 'Jagatī (12)';
+    if (syllableCount >= 30 && syllableCount <= 34) return 'Anuṣṭubh / Śloka (4×8)';
+    if (syllableCount >= 22 && syllableCount <= 24) return 'Gāyatrī (3×8)';
+    if (syllableCount >= 42 && syllableCount <= 48) return 'Triṣṭubh (4×11)';
+    return 'Custom (' + syllableCount + ' syllables)';
+}
+
+function isPrime(n) {
+    if (n < 2) return false;
+    for (let i=2; i*i<=n; i++) if (n%i===0) return false;
+    return true;
+}
+
+// ============================================================
+// MERU PRASTARA (Pascal's Triangle)
+// ============================================================
+function drawMeruPrastara(binaryPattern) {
+    const canvas = document.getElementById('meruCanvas');
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+
+    const rows = Math.min(Math.max((binaryPattern||'').length, 6), 10);
+    const radius = 16;
+    const rowH = (H - 40) / rows;
+    const bits = (binaryPattern || '').split('').map(Number);
+
+    // Compute highlighted path
+    const pathCols = [0];
+    let cumSum = 0;
+    for (let r = 1; r < rows; r++) {
+        if (r-1 < bits.length) cumSum += bits[r-1];
+        pathCols.push(Math.min(cumSum, r));
+    }
+
+    function binom(n, k) {
+        if (k<0||k>n) return 0;
+        if (k===0||k===n) return 1;
+        let v=1; for (let i=0;i<k;i++) v=v*(n-i)/(i+1); return Math.round(v);
+    }
+
+    for (let r = 0; r < rows; r++) {
+        const y = 25 + r * rowH;
+        const rw = (r+1) * (radius*2 + 6);
+        const sx = (W - rw) / 2 + radius + 3;
+        for (let c = 0; c <= r; c++) {
+            const x = sx + c * (radius*2 + 6);
+            const val = binom(r, c);
+            const onPath = (pathCols[r] === c);
+
+            if (r < rows-1) {
+                const ny = 25 + (r+1) * rowH;
+                const nrw = (r+2) * (radius*2 + 6);
+                const nsx = (W - nrw) / 2 + radius + 3;
+                ctx.beginPath(); ctx.strokeStyle = 'rgba(255,255,255,0.08)'; ctx.lineWidth = 1;
+                ctx.moveTo(x, y+radius); ctx.lineTo(nsx + c*(radius*2+6), ny-radius); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(x, y+radius); ctx.lineTo(nsx + (c+1)*(radius*2+6), ny-radius); ctx.stroke();
+            }
+
+            ctx.beginPath(); ctx.arc(x, y, radius, 0, Math.PI*2);
+            if (onPath) {
+                ctx.fillStyle = '#DAA520'; ctx.strokeStyle = '#fff'; ctx.lineWidth = 2.5;
+            } else {
+                ctx.fillStyle = 'rgba(255,255,255,0.07)'; ctx.strokeStyle = 'rgba(255,255,255,0.2)'; ctx.lineWidth = 1;
+            }
+            ctx.fill(); ctx.stroke();
+
+            ctx.fillStyle = onPath ? '#000' : '#666';
+            ctx.font = (val>99?9:11)+'px Rajdhani'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.fillText(val, x, y);
+        }
+    }
+}
+
+// ============================================================
+// DISPLAY
+// ============================================================
+function analyzeVerse() {
+    const text = document.getElementById('sanskritInput').value.trim();
+    if (!text) return;
+
+    const syllables = analyzeProsody(text);
+    const binaryStr = syllables.map(s => s.isGuru ? '1' : '0').join('');
+    const decimal = binaryStr.length > 0 ? parseInt(binaryStr, 2) : 0;
+    const spectrum = analyzeSpectrum(text);
+    const laghuN = syllables.filter(s => !s.isGuru).length;
+    const guruN = syllables.filter(s => s.isGuru).length;
+    const meter = detectMeter(syllables.length);
+
+    const card = document.getElementById('verseResult');
+    card.classList.remove('hidden');
+
+    const v = VERSES[currentVerseIdx];
+    document.getElementById('resultVerseId').textContent = v ? v.id : '';
+    document.getElementById('resultSanskrit').innerHTML = text.replace(/\n/g, '<br>');
+
+    // ★ Feature 2: Syllable strip
+    const strip = document.getElementById('syllableStrip');
+    strip.innerHTML = '';
+    syllables.forEach(s => {
+        const el = document.createElement('div');
+        el.className = s.isGuru ? 'syl syl-guru' : 'syl syl-laghu';
+        el.textContent = s.isGuru ? 'G' : 'L';
+        el.title = s.text;
+        strip.appendChild(el);
+    });
+
+    // ★ Feature 3: Binary string + decimal
+    document.getElementById('binaryString').textContent = binaryStr;
+    document.getElementById('decimalValue').textContent = 'Decimal: ' + decimal;
+
+    // ★ Feature 4: Meter
+    document.getElementById('meterName').textContent = meter;
+
+    // ★ Feature 6b: Stacked energy bar
+    const elements = ['ether','air','fire','water','earth'];
+    const colors = ['var(--ether)','var(--air)','var(--fire)','var(--water)','var(--earth)'];
+    const energyBar = document.getElementById('energyBar');
+    energyBar.innerHTML = '';
+    spectrum.slice(0, 5).forEach((pct, idx) => {
+        const seg = document.createElement('div');
+        seg.style.cssText = 'width:'+pct+'%; height:100%; background:'+colors[idx]+';';
+        seg.title = elements[idx] + ': ' + pct.toFixed(1) + '%';
+        energyBar.appendChild(seg);
+    });
+
+    // ★ Feature 6: Animated spectrum bars (all 9 dimensions)
+    const barIds = ['bar-guttural','bar-palatal','bar-cerebral','bar-dental','bar-labial','bar-nasal','bar-voiced','bar-aspirated','bar-length'];
+    barIds.forEach((id, idx) => {
+        const bar = document.getElementById(id);
+        const pct = spectrum[idx] || 0;
+        bar.style.width = Math.min(pct * 1.8, 100) + '%';
+        bar.innerHTML = '<span>'+DIM_NAMES[idx]+'</span><span class="spectrum-pct">'+pct.toFixed(1)+'%</span>';
+    });
+
+    // Interpretation
+    const interp = document.getElementById('interpretation');
+    const dentalPct = spectrum[3], labialPct = spectrum[4], gutturalPct = spectrum[0];
+    if (dentalPct + labialPct > 50) {
+        interp.style.display = 'block';
+        interp.innerHTML = '<strong>💡 Interpretation:</strong> High Dental ('+dentalPct.toFixed(1)+'%) + Labial ('+labialPct.toFixed(1)+'%) = '+(dentalPct+labialPct).toFixed(1)+'% activation in Water & Earth elements — indicates <em>grounding and manifestation</em> focus, characteristic of healing mantras.';
+    } else if (gutturalPct > 35) {
+        interp.style.display = 'block';
+        interp.innerHTML = '<strong>💡 Interpretation:</strong> Elevated Guttural presence ('+gutturalPct.toFixed(1)+'%) indicates connection to Ether/Space element — this verse emphasizes <em>transcendence and cosmic awareness</em>.';
+    } else {
+        interp.style.display = 'block';
+        interp.innerHTML = '<strong>💡 Interpretation:</strong> Balanced phonetic distribution across articulatory positions — comprehensive activation suitable for general well-being and meditation.';
+    }
+
+    // ★ Feature 7: Statistics
+    document.getElementById('statSyllables').textContent = syllables.length;
+    document.getElementById('statLaghu').textContent = laghuN;
+    document.getElementById('statGuru').textContent = guruN;
+    document.getElementById('statRatio').textContent = guruN > 0 ? (laghuN/guruN).toFixed(2) : '∞';
+    document.getElementById('statDecimal').textContent = decimal;
+    document.getElementById('statPrime').textContent = isPrime(syllables.length) ? '✓ Prime' : '✗ No';
+
+    // ★ Feature 5: Meru Prastara
+    drawMeruPrastara(binaryStr);
+
+    // ★ Word Meanings
+    const grid = document.getElementById('meaningsGrid');
+    grid.innerHTML = '';
+    const meanings = v ? v.meanings : [];
+    if (meanings.length > 0) {
+        meanings.forEach(function(m) {
+            grid.innerHTML += '<div class="meaning-item"><span class="word-sanskrit">'+m[0]+'</span><span class="word-meaning">'+m[1]+'</span></div>';
+        });
+    } else {
+        grid.innerHTML = '<div style="color:#64748b;font-style:italic;padding:10px;">No meanings loaded for custom input.</div>';
+    }
+
+    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ============================================================
+// VERSE NAVIGATION
+// ============================================================
+function loadVerse(delta) {
+    currentVerseIdx = (currentVerseIdx + delta + VERSES.length) % VERSES.length;
+    const v = VERSES[currentVerseIdx];
+    document.getElementById('sanskritInput').value = v.sanskrit;
+    document.getElementById('verseIndicator').textContent = 'Verse ' + v.id + ' / ' + VERSES.length;
+    analyzeVerse();
+}
+
+// ============================================================
+// AGGREGATE CORPUS ANALYSIS
+// ============================================================
+function analyzeCorpus() {
+    const allSyllables = [];
+    const allBinaryBits = [];
+    const corpusCounts = new Array(DIM_COUNT).fill(0);
+    let corpusTotal = 0;
+    const perVerse = [];
+
+    CORPUS_VERSES.forEach(v => {
+        const syls = analyzeProsody(v.text);
+        const laghu = syls.filter(s => !s.isGuru).length;
+        const guru  = syls.filter(s => s.isGuru).length;
+        const binary = syls.map(s => s.isGuru ? '1' : '0').join('');
+        const spectrum = analyzeSpectrumRaw(v.text);
+        corpusTotal += spectrum.total;
+        for (let d = 0; d < DIM_COUNT; d++) corpusCounts[d] += spectrum.counts[d];
+        allSyllables.push(...syls);
+        allBinaryBits.push(binary);
+
+        const pct = spectrum.total > 0 ? spectrum.counts.map(c => (c/spectrum.total)*100) : new Array(DIM_COUNT).fill(0);
+        perVerse.push({
+            id: v.id, total: syls.length, laghu, guru,
+            ratio: guru > 0 ? (laghu / guru).toFixed(2) : '∞',
+            meter: detectMeter(syls.length),
+            dental: pct[3].toFixed(1), labial: pct[4].toFixed(1)
+        });
+    });
+
+    const totalLaghu = allSyllables.filter(s => !s.isGuru).length;
+    const totalGuru  = allSyllables.filter(s => s.isGuru).length;
+
+    // Corpus summary stats
+    document.getElementById('cTotalSyl').textContent = allSyllables.length;
+    document.getElementById('cTotalLaghu').textContent = totalLaghu;
+    document.getElementById('cTotalGuru').textContent = totalGuru;
+    document.getElementById('cRatio').textContent = totalGuru > 0 ? (totalLaghu / totalGuru).toFixed(2) : '∞';
+
+    // Corpus 9D spectrum bars
+    const corpusSpectrum = corpusTotal > 0 ? corpusCounts.map(c => (c / corpusTotal) * 100) : new Array(DIM_COUNT).fill(0);
+    const cBarIds = ['c-bar-guttural','c-bar-palatal','c-bar-cerebral','c-bar-dental','c-bar-labial','c-bar-nasal','c-bar-voiced','c-bar-aspirated','c-bar-length'];
+    cBarIds.forEach((id, idx) => {
+        const bar = document.getElementById(id);
+        const pct = corpusSpectrum[idx] || 0;
+        bar.style.width = Math.min(pct * 1.8, 100) + '%';
+        bar.innerHTML = '<span>' + DIM_NAMES[idx] + '</span><span class="spectrum-pct">' + pct.toFixed(1) + '%</span>';
+    });
+
+    // Corpus interpretation
+    const ci = document.getElementById('corpusInterpretation');
+    const d = corpusSpectrum[3], l = corpusSpectrum[4];
+    ci.style.display = 'block';
+    ci.innerHTML = '<strong>💡 Corpus Interpretation:</strong> Dental (' + d.toFixed(1) + '%) + Labial (' + l.toFixed(1) + '%) = ' + (d + l).toFixed(1) + '% — ' +
+        (d + l > 50 ? 'strong Water & Earth predominance indicates <em>grounding and healing</em> character.' : 'moderate elemental balance across the corpus.');
+
+    // Binary rhythm run-length analysis
+    const fullBinary = allBinaryBits.join('');
+    const runLengths = {};
+    let run = fullBinary[0], runLen = 1;
+    for (let i = 1; i <= fullBinary.length; i++) {
+        if (i < fullBinary.length && fullBinary[i] === run) {
+            runLen++;
+        } else {
+            const label = (run === '0' ? 'L' : 'G').repeat(runLen);
+            const key = run.repeat(runLen);
+            if (!runLengths[key]) runLengths[key] = { label, count: 0 };
+            runLengths[key].count++;
+            if (i < fullBinary.length) { run = fullBinary[i]; runLen = 1; }
+        }
+    }
+
+    const sorted = Object.entries(runLengths).sort((a, b) => b[1].count - a[1].count);
+    const maxCount = sorted.length > 0 ? sorted[0][1].count : 1;
+    const rpDiv = document.getElementById('rhythmPatterns');
+    rpDiv.innerHTML = '';
+    sorted.slice(0, 8).forEach(([bits, info]) => {
+        const pct = (info.count / maxCount) * 100;
+        const color = bits[0] === '0' ? 'var(--laghu)' : 'var(--guru)';
+        rpDiv.innerHTML += '<div class="spectrum-row"><span class="spectrum-label" style="width:55px;font-family:monospace;font-size:0.9rem;">' + info.label + '</span>' +
+            '<div class="spectrum-track"><div class="spectrum-fill" style="width:' + pct + '%;background:' + color + ';"><span>' + info.count + ' hits</span></div></div></div>';
+    });
+
+    const ri = document.getElementById('rhythmInterpretation');
+    ri.style.display = 'block';
+    const singleL = runLengths['0'] ? runLengths['0'].count : 0;
+    const singleG = runLengths['1'] ? runLengths['1'].count : 0;
+    ri.innerHTML = '<strong>💡 Rhythm Interpretation:</strong> Single-short (L): ' + singleL + ', Single-long (G): ' + singleG +
+        '. Ratio ≈ ' + (singleG > 0 ? (singleL / singleG).toFixed(1) : '∞') + ':1. ' +
+        'High prevalence of simple single-pulse patterns indicates <em>"trance logic"</em> — minimal entropy patterns designed for rhythmic entrainment.';
+
+    // Per-verse table
+    const tbody = document.getElementById('corpusTableBody');
+    tbody.innerHTML = '';
+    perVerse.forEach(pv => {
+        tbody.innerHTML += '<tr style="border-bottom:1px solid #1e293b;">' +
+            '<td style="padding:8px;">' + pv.id + '</td>' +
+            '<td style="padding:8px;text-align:center;">' + pv.total + '</td>' +
+            '<td style="padding:8px;text-align:center;color:var(--laghu);">' + pv.laghu + '</td>' +
+            '<td style="padding:8px;text-align:center;color:var(--guru);">' + pv.guru + '</td>' +
+            '<td style="padding:8px;text-align:center;">' + pv.ratio + '</td>' +
+            '<td style="padding:8px;text-align:center;">' + pv.meter + '</td>' +
+            '<td style="padding:8px;text-align:center;color:var(--water);">' + pv.dental + '%</td>' +
+            '<td style="padding:8px;text-align:center;color:var(--earth);">' + pv.labial + '%</td>' +
+            '</tr>';
+    });
+
+    document.getElementById('corpusResult').classList.remove('hidden');
+    document.getElementById('corpusResult').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// Raw spectrum (returns counts + total) for corpus aggregation
+function analyzeSpectrumRaw(text) {
+    const counts = new Array(DIM_COUNT).fill(0);
+    let total = 0;
+    for (const ch of text) {
+        const vec = PHONETIC_MAP[ch];
+        if (vec) { total++; for (let d = 0; d < DIM_COUNT; d++) counts[d] += vec[d]; }
+    }
+    return { counts, total };
+}
+
+// Initialize
+document.getElementById('verseIndicator').textContent = 'Verse 1 / ' + VERSES.length;
+window.addEventListener('DOMContentLoaded', function() { analyzeVerse(); });
+</script>
+
+</body>
+</html>
