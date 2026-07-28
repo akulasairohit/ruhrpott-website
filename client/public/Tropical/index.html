@@ -1,487 +1,714 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de" data-lang="de">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Tropical Café Oberhausen – Frühstück & Brunch Café in der Oberhausener Innenstadt. Smoothie Bowls, Pancakes, Wraps & mehr. Di–So 10:00–16:00. 4,9 Sterne auf Google." />
+  <meta name="theme-color" content="#3D3B1E" />
+  <meta property="og:title" content="Tropical Café Oberhausen" />
+  <meta property="og:description" content="Dein Urlaub. Mitten in Oberhausen. Frühstück &amp; Brunch täglich ab 10 Uhr." />
+  <meta property="og:type" content="website" />
+  <title>Tropical Café Oberhausen</title>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Preconnect for speed -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Syne:wght@400;600;700;800&family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
 
-<title>Tropical Cafe</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
-<style>
-
-:root{
---primary:#ff9f1c;
---secondary:#2ec4b6;
-}
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-body{
-font-family:Poppins;
-background:linear-gradient(180deg,#fafafa,#f1f1f1);
-}
-
-/* HERO */
-
-.hero{
-height:65vh;
-position:relative;
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-overflow:hidden;
-}
-
-.hero img{
-position:absolute;
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-.hero-overlay{
-position:absolute;
-width:100%;
-height:100%;
-background:linear-gradient(to bottom,rgba(0,0,0,.3),rgba(0,0,0,.75));
-}
-
-.hero-content{
-position:relative;
-z-index:2;
-color:white;
-max-width:500px;
-padding:20px;
-margin-top:140px;
-}
-
-.tagline{
-font-size:20px;
-font-weight:500;
-letter-spacing:1px;
-}
-
-/* CATEGORY BAR */
-
-.category-bar{
-display:flex;
-gap:12px;
-padding:15px;
-position:sticky;
-top:0;
-background:rgba(255,255,255,.85);
-backdrop-filter:blur(12px);
-z-index:20;
-overflow-x:auto;
-box-shadow:0 4px 20px rgba(0,0,0,.08);
-}
-
-.category-bar button{
-border:none;
-background:white;
-padding:10px 18px;
-border-radius:30px;
-font-size:13px;
-cursor:pointer;
-box-shadow:0 6px 18px rgba(0,0,0,0.12);
-transition:.3s;
-}
-
-.category-bar button.active{
-background:linear-gradient(45deg,#ff9f1c,#ffd166);
-color:white;
-}
-
-/* MENU */
-
-.menu{
-padding:25px;
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:22px;
-max-width:780px;
-margin:auto;
-}
-
-.card{
-position:relative;
-height:220px;
-border-radius:22px;
-overflow:hidden;
-cursor:pointer;
-transition:.35s;
-background:white;
-box-shadow:0 10px 30px rgba(0,0,0,0.12);
-}
-
-.card img{
-width:100%;
-height:100%;
-object-fit:cover;
-transition:.4s;
-}
-
-.card:hover img{
-transform:scale(1.08);
-}
-
-.card-content{
-position:absolute;
-bottom:0;
-width:100%;
-padding:14px;
-background:linear-gradient(to top,rgba(0,0,0,.85),transparent);
-color:white;
-}
-
-.price{
-font-size:13px;
-display:inline-block;
-margin-top:4px;
-padding:3px 8px;
-border-radius:12px;
-background:linear-gradient(45deg,#ffd166,#ff9f1c);
-color:#222;
-font-weight:600;
-}
-
-.description{
-opacity:0;
-max-height:0;
-overflow:hidden;
-transition:.35s;
-font-size:13px;
-margin-top:8px;
-}
-
-.card.active{
-grid-column:span 2;
-height:350px;
-}
-
-.card.active .description{
-opacity:1;
-max-height:200px;
-}
-
-/* DIVIDER */
-
-.section-divider{
-grid-column:span 2;
-text-align:center;
-font-weight:600;
-font-size:22px;
-margin:35px 0 10px;
-color:#333;
-position:relative;
-}
-
-.section-divider:before,
-.section-divider:after{
-content:"";
-position:absolute;
-top:50%;
-width:35%;
-height:2px;
-background:#ddd;
-}
-
-.section-divider:before{ left:0; }
-.section-divider:after{ right:0; }
-
-footer{
-text-align:center;
-padding:35px;
-font-size:12px;
-color:#777;
-}
-
-</style>
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/animations.css" />
 </head>
-
 <body>
+<!-- Custom cursor (desktop only) -->
+<div id="cursor-dot" aria-hidden="true"></div>
+<div id="cursor-ring" aria-hidden="true"></div>
 
-<section class="hero">
-<img src="img/splash.png">
-<div class="hero-overlay"></div>
-<div class="hero-content">
-<p class="tagline">Fresh • Healthy • Tropical</p>
+<!-- ═══════════════════════════════════════════════════
+     LOADING SCREEN
+════════════════════════════════════════════════════ -->
+<div id="loader" aria-hidden="true" role="status" aria-label="Wird geladen…">
+  <div class="loader-inner">
+    <img src="images/logos/Logo 1.png" alt="Tropical Café" class="loader-logo" />
+    <div class="loader-bar"><div class="loader-fill"></div></div>
+  </div>
 </div>
+
+<!-- Scroll progress indicator -->
+<div id="scroll-progress" aria-hidden="true"></div>
+
+<!-- ═══════════════════════════════════════════════════
+     NAVIGATION
+════════════════════════════════════════════════════ -->
+<nav id="navbar" role="navigation" aria-label="Hauptnavigation">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo" aria-label="Tropical Café – Startseite">
+      <img src="images/logos/Logo 2.png" alt="Tropical Café" class="logo-dark" />
+      <img src="images/logos/Logo 1.png" alt="Tropical Café" class="logo-light" />
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li><a href="#about"    data-i18n="nav_about">Über uns</a></li>
+      <li><a href="#menu"     data-i18n="nav_menu">Menü</a></li>
+      <li><a href="#gallery"  data-i18n="nav_gallery">Galerie</a></li>
+      <li><a href="#location" data-i18n="nav_location">Standort</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <a href="https://tropicalcafe.qr1.at/menuekarte"
+         target="_blank" rel="noopener noreferrer"
+         class="btn btn-outline btn-sm"
+         data-i18n="nav_cta">Karte ansehen</a>
+      <button class="lang-toggle" id="lang-toggle" aria-label="Sprache wechseln">
+        <span id="lang-current">DE</span>
+        <span class="lang-sep" aria-hidden="true">|</span>
+        <span id="lang-other">EN</span>
+      </button>
+      <button class="hamburger" id="hamburger" aria-label="Menü öffnen" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile slide-down menu -->
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <ul role="list">
+      <li><a href="#about"    data-i18n="nav_about">Über uns</a></li>
+      <li><a href="#menu"     data-i18n="nav_menu">Menü</a></li>
+      <li><a href="#gallery"  data-i18n="nav_gallery">Galerie</a></li>
+      <li><a href="#location" data-i18n="nav_location">Standort</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li>
+        <a href="https://tropicalcafe.qr1.at/menuekarte"
+           target="_blank" rel="noopener noreferrer"
+           class="btn btn-gold"
+           data-i18n="nav_cta">Karte ansehen</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════════════ -->
+<section id="hero" aria-label="Hero">
+  <div class="hero-slide is-active" aria-hidden="true">
+    <img src="images/instagram/Tropical_Caf_vibes_mit_deinen_Lieblingsmenschen_Br.jpg" alt="" loading="eager" fetchpriority="high" />
+  </div>
+  <div class="hero-slide" aria-hidden="true">
+    <img src="images/instagram/Photo_by_Tropical_Caf_Breakfast_Brunch_in_Oberhaus (9).jpg" alt="" loading="lazy" />
+  </div>
+  <div class="hero-slide" aria-hidden="true">
+    <img src="images/instagram/Photo_by_Tropical_Caf_Breakfast_Brunch_in_Oberhaus (8).jpg" alt="" loading="lazy" />
+  </div>
+  <div class="hero-overlay" aria-hidden="true"></div>
+
+  <div class="hero-content">
+    <span class="hero-tag" data-i18n="hero_tag">Frühstück &amp; Brunch · Oberhausen</span>
+
+    <h1 class="hero-title" aria-label="Dein Urlaub. Mitten in Oberhausen.">
+      <span class="word hero-word-wrap"><span class="hero-word-inner" data-i18n="hero_title_1">Dein Urlaub.</span></span>
+      <span class="word hero-word-wrap accent"><span class="hero-word-inner" data-i18n="hero_title_2">Mitten in</span></span>
+      <span class="word hero-word-wrap"><span class="hero-word-inner" data-i18n="hero_title_3">Oberhausen.</span></span>
+    </h1>
+
+    <p class="hero-sub" data-i18n="hero_hours">Di–So 10:00–16:00 · Mo Ruhetag</p>
+
+    <div class="hero-ctas">
+      <a href="#menu"     class="btn btn-gold"          data-i18n="hero_cta_menu">Menü entdecken</a>
+      <a href="#location" class="btn btn-outline-light"  data-i18n="hero_cta_find">Uns finden</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll-hint" aria-hidden="true"><span></span></div>
+
+  <div class="wave-bottom" aria-hidden="true">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#E9E3D4"/>
+    </svg>
+  </div>
 </section>
 
-<div class="category-bar">
-<button class="active" onclick="filterMenu('all',event)">All</button>
-<button onclick="filterMenu('bowls',event)">Bowls</button>
-<button onclick="filterMenu('wraps',event)">Wraps</button>
-<button onclick="filterMenu('pancakes',event)">Pancakes</button>
+<!-- ═══════════════════════════════════════════════════
+     MARQUEE STRIP
+════════════════════════════════════════════════════ -->
+<div class="marquee-strip" aria-hidden="true">
+  <div class="marquee-track">
+    <span>ENJOY YOUR VACAY</span><span class="dot">✦</span>
+    <span>BREAKFAST</span><span class="dot">✦</span>
+    <span>BRUNCH</span><span class="dot">✦</span>
+    <span>SMOOTHIE BOWLS</span><span class="dot">✦</span>
+    <span>OBERHAUSEN</span><span class="dot">✦</span>
+    <span>SEIT 2024</span><span class="dot">✦</span>
+    <span>HALAL</span><span class="dot">✦</span>
+    <span>ALL-DAY BREAKFAST</span><span class="dot">✦</span>
+    <span>ENJOY YOUR VACAY</span><span class="dot">✦</span>
+    <span>BREAKFAST</span><span class="dot">✦</span>
+    <span>BRUNCH</span><span class="dot">✦</span>
+    <span>SMOOTHIE BOWLS</span><span class="dot">✦</span>
+    <span>OBERHAUSEN</span><span class="dot">✦</span>
+    <span>SEIT 2024</span><span class="dot">✦</span>
+    <span>HALAL</span><span class="dot">✦</span>
+    <span>ALL-DAY BREAKFAST</span><span class="dot">✦</span>
+  </div>
 </div>
 
-<section class="menu">
+<!-- ═══════════════════════════════════════════════════
+     SOCIAL PROOF — 4.9 ★
+════════════════════════════════════════════════════ -->
+<section id="stars" class="section-cream" aria-label="Google Bewertungen">
+  <div class="container">
+    <div class="stars-inner reveal-up">
+      <div class="stars-rating">
+        <div class="stars-number" aria-label="4,9 Sterne">
+          <span class="counter" data-target="4.9">0</span>
+          <span class="stars-star" aria-hidden="true">★</span>
+        </div>
+        <div class="stars-icons" aria-hidden="true">★★★★★</div>
+        <p class="stars-source">Google</p>
+      </div>
 
-<div class="section-divider bowls-divider">🥗 Fresh Healthy Bowls</div>
+      <div class="stars-divider" aria-hidden="true"></div>
 
-<div class="card bowls" onclick="toggleCard(this)">
-<img src="img/mango.png">
-<div class="card-content">
-<h3>Mango Bliss</h3>
-<div class="price">€10.50</div>
-<div class="description">Ripe mango blended with coconut milk and banana topped with kiwi and chia seeds. 🥭🍌🥥</div>
-</div>
-</div>
-
-<div class="card bowls" onclick="toggleCard(this)">
-<img src="img/choco.png">
-<div class="card-content">
-<h3>Midnight Cacao</h3>
-<div class="price">€10.50</div>
-<div class="description">Rich cacao smoothie bowl with banana, almond milk and cacao nibs. 🍫🍌🌰</div>
-</div>
-</div>
-
-<div class="card bowls" onclick="toggleCard(this)">
-<img src="img/ocean.png">
-<div class="card-content">
-<h3>Blue Lagoon</h3>
-<div class="price">€11.50</div>
-<div class="description">Blue spirulina bowl with pineapple and coconut milk. 💙🍍🥭</div>
-</div>
-</div>
-
-<div class="card bowls" onclick="toggleCard(this)">
-<img src="img/acai.png">
-<div class="card-content">
-<h3>Amazonian Soul</h3>
-<div class="price">€10.50</div>
-<div class="description">Acai berries blended into antioxidant bowl with granola. 🍓🫐🍌</div>
-</div>
-</div>
-
-<div class="card bowls" onclick="toggleCard(this)">
-<img src="img/Bowl Avorellabowl.png">
-<div class="card-content">
-<h3>Avorella Bowl</h3>
-<div class="price">€11.50</div>
-<div class="description">Avocado quinoa bowl with roasted chickpeas. 🥑🥗</div>
-</div>
-</div>
-
-<div class="card bowls" onclick="toggleCard(this)">
-<img src="img/Bowl Chickabowl.png">
-<div class="card-content">
-<h3>Chicka Bowl</h3>
-<div class="price">€12.50</div>
-<div class="description">Grilled chicken bowl with brown rice and vegetables. 🍗🍚</div>
-</div>
-</div>
-
-<div class="card bowls" onclick="toggleCard(this)">
-<img src="img/Bowl Potatobowl (vegan).png">
-<div class="card-content">
-<h3>Potato Bowl</h3>
-<div class="price">€10.90</div>
-<div class="description">Roasted potatoes with avocado and greens. 🥔🥑🌱</div>
-</div>
-</div>
-
-<div class="card bowls" onclick="toggleCard(this)">
-<img src="img/Bowl Shalabowl (vegan).png">
-<div class="card-content">
-<h3>Shala Bowl</h3>
-<div class="price">€10.90</div>
-<div class="description">Hummus, grilled veggies and quinoa bowl. 🌱🥗</div>
-</div>
-</div>
-
-<div class="card bowls" onclick="toggleCard(this)">
-<img src="img/Bowl Suyangbowl.png">
-<div class="card-content">
-<h3>Suyang Bowl</h3>
-<div class="price">€12.00</div>
-<div class="description">Teriyaki chicken bowl with rice and edamame. 🍗🍚🌿</div>
-</div>
-</div>
-
-<div class="card bowls" onclick="toggleCard(this)">
-<img src="img/Bowl Thunionbowl.png">
-<div class="card-content">
-<h3>Thunion Bowl</h3>
-<div class="price">€12.50</div>
-<div class="description">Fresh tuna poke bowl with sushi rice and avocado. 🐟🥑🍚</div>
-</div>
-</div>
-
-<div class="section-divider wraps-divider">🌯 Fresh Wraps</div>
-
-<!-- 5 WRAPS -->
-
-<div class="card wraps" onclick="toggleCard(this)">
-<img src="img/Wraps Cigköftewraps.png">
-<div class="card-content">
-<h3>Cigköfte Wrap</h3>
-<div class="price">€9.90</div>
-<div class="description">Spicy Turkish vegan cigköfte wrap. 🌯🌶️🌱</div>
-</div>
-</div>
-
-<div class="card wraps" onclick="toggleCard(this)">
-<img src="img/Wraps Freshwraps.png">
-<div class="card-content">
-<h3>Fresh Wrap</h3>
-<div class="price">€9.50</div>
-<div class="description">Healthy vegetable wrap with yogurt herb sauce. 🥬🥒🌯</div>
-</div>
-</div>
-
-<div class="card wraps" onclick="toggleCard(this)">
-<img src="img/Wraps Garnelenwraps.png">
-<div class="card-content">
-<h3>Garnelen Wrap</h3>
-<div class="price">€11.90</div>
-<div class="description">Shrimp wrap with salad and garlic sauce. 🍤🥬🌯</div>
-</div>
-</div>
-
-<div class="card wraps" onclick="toggleCard(this)">
-<img src="img/Wraps Orientalwraps.png">
-<div class="card-content">
-<h3>Oriental Wrap</h3>
-<div class="price">€10.50</div>
-<div class="description">Hummus and grilled vegetable wrap. 🧆🥗🌯</div>
-</div>
-</div>
-
-<div class="card wraps" onclick="toggleCard(this)">
-<img src="img/Wraps Sucukwraps.png">
-<div class="card-content">
-<h3>Sucuk Wrap</h3>
-<div class="price">€11.50</div>
-<div class="description">Spicy Turkish sausage with cheese wrap. 🌶️🧀🌯</div>
-</div>
-</div>
-
-<div class="section-divider pancakes-divider">🥞 Pancakes</div>
-
-<!-- 4 PANCAKES -->
-
-<div class="card pancakes" onclick="toggleCard(this)">
-<img src="img/Pancakes Classic.png">
-<div class="card-content">
-<h3>Classic Pancakes</h3>
-<div class="price">€8.90</div>
-<div class="description">Fluffy pancakes with maple syrup. 🥞🍯</div>
-</div>
-</div>
-
-<div class="card pancakes" onclick="toggleCard(this)">
-<img src="img/Pancakes Nutella.png">
-<div class="card-content">
-<h3>Nutella Pancakes</h3>
-<div class="price">€9.90</div>
-<div class="description">Pancakes topped with Nutella and strawberries. 🍫🍓</div>
-</div>
-</div>
-
-<div class="card pancakes" onclick="toggleCard(this)">
-<img src="img/Pancakes Pistachio.png">
-<div class="card-content">
-<h3>Pistachio Pancakes</h3>
-<div class="price">€10.90</div>
-<div class="description">Pancakes with pistachio cream and crushed nuts. 🌰🥞</div>
-</div>
-</div>
-
-<div class="card pancakes" onclick="toggleCard(this)">
-<img src="img/Pancakes Tropical.png">
-<div class="card-content">
-<h3>Tropical Pancakes</h3>
-<div class="price">€10.50</div>
-<div class="description">Mango pineapple coconut pancakes. 🥭🍍🥥</div>
-</div>
-</div>
-
+      <div class="stars-count-block">
+        <div class="stars-big-count" aria-label="2000 Bewertungen">
+          <span class="counter-int" data-target="2000">0</span>+
+        </div>
+        <p data-i18n="stars_count">über 2.000 Google-Bewertungen</p>
+        <a href="https://maps.app.goo.gl/i9csPSpWfcmQCwPGA"
+           target="_blank" rel="noopener noreferrer"
+           class="stars-link"
+           data-i18n="stars_cta">Alle Bewertungen lesen →</a>
+      </div>
+    </div>
+  </div>
 </section>
 
-<footer>
-© Tropical Cafe 2026
+<!-- ═══════════════════════════════════════════════════
+     ABOUT
+════════════════════════════════════════════════════ -->
+<section id="about" class="section-olive grain-overlay" aria-labelledby="about-heading">
+  <div class="container">
+    <div class="about-grid">
+
+      <div class="about-text reveal-left">
+        <span class="label-tag" data-i18n="about_label">Unsere Geschichte</span>
+        <h2 id="about-heading" class="section-title light" data-i18n="about_title">Wir bringen Bali nach Oberhausen</h2>
+        <p class="body-text light" data-i18n="about_text_1">
+          Ein Ort, der keine Ferien kennt – weil er selbst einer ist. Das Tropical Café steht für frische, bunte Gerichte mit tropischen Aromen, liebevoll präsentiert in einem Ambiente, das das Fernweh stillt.
+        </p>
+        <p class="body-text light accent-text" data-i18n="about_text_2">Alles frisch. Alles jeden Tag. Für dich.</p>
+        <div class="about-tags" role="list">
+          <span class="about-tag" role="listitem" data-i18n="about_tag_1">🌿 Vegan-freundlich</span>
+          <span class="about-tag" role="listitem" data-i18n="about_tag_2">🥑 Frische Zutaten</span>
+          <span class="about-tag" role="listitem" data-i18n="about_tag_3">🌺 Halal</span>
+          <span class="about-tag" role="listitem" data-i18n="about_tag_4">☕ All-day Frühstück</span>
+        </div>
+      </div>
+
+      <div class="about-images reveal-right">
+        <div class="about-img-main">
+          <img src="images/instagram/Photo_by_Tropical_Caf_Breakfast_Brunch_in_Oberhaus (14).jpg"
+               alt="Tropical Café Frühstück Atmosphäre"
+               loading="lazy" />
+        </div>
+        <div class="about-img-accent">
+          <img src="images/instagram/Photo_by_Tropical_Caf_Breakfast_Brunch_on_July_24_.jpg"
+               alt="Tropical Café Avocado Bowl"
+               loading="lazy" />
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="wave-bottom" aria-hidden="true">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,20 C480,80 960,0 1440,60 L1440,80 L0,80 Z" fill="#E9E3D4"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     MENU
+════════════════════════════════════════════════════ -->
+<section id="menu" class="section-cream" aria-labelledby="menu-heading">
+  <div class="container">
+    <div class="section-header reveal-up">
+      <span class="label-tag" data-i18n="menu_label">Die Karte</span>
+      <h2 id="menu-heading" class="section-title" data-i18n="menu_title">Unsere Speisekarte</h2>
+    </div>
+
+    <!-- Category tabs (built by menu.js) -->
+    <div class="menu-tabs" role="tablist" aria-label="Menü Kategorien"></div>
+
+    <!-- Cards (built by menu.js) -->
+    <div class="menu-grid" id="menu-grid" role="tabpanel" aria-live="polite"></div>
+
+    <div class="menu-cta reveal-up">
+      <a href="https://tropicalcafe.qr1.at/menuekarte"
+         target="_blank" rel="noopener noreferrer"
+         class="btn btn-olive"
+         data-i18n="menu_cta_full">Vollständige Karte ansehen</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SPOTLIGHT — TROPICAL PLATTE
+════════════════════════════════════════════════════ -->
+<section id="spotlight" class="section-olive spotlight-section grain-overlay" aria-labelledby="spot-heading">
+  <div class="container">
+    <div class="spotlight-grid">
+
+      <div class="spotlight-text reveal-left">
+        <span class="label-tag" data-i18n="spot_label">Unsere Empfehlung</span>
+        <h2 id="spot-heading" class="section-title light" data-i18n="spot_title">Tropical Platte</h2>
+        <p class="body-text light" data-i18n="spot_desc">
+          Die perfekte Auswahl für alle, die alles wollen – frische Beilagen, bunte Salate, knuspriges Brot und unsere Signature-Dips auf einem traumhaften Tableau.
+        </p>
+        <a href="https://tropicalcafe.qr1.at/menuekarte"
+           target="_blank" rel="noopener noreferrer"
+           class="btn btn-gold"
+           data-i18n="spot_cta">Zur Karte</a>
+      </div>
+
+      <div class="spotlight-img reveal-right">
+        <img src="images/food/Platte Tropical.png"
+             alt="Tropical Platte – das Signature Gericht des Tropical Café"
+             loading="lazy" decoding="async" />
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     GALLERY
+════════════════════════════════════════════════════ -->
+<section id="gallery" class="section-cream" aria-labelledby="gallery-heading">
+  <div class="container">
+    <div class="section-header reveal-up">
+      <span class="label-tag" data-i18n="gallery_label">@tropicalcafe</span>
+      <h2 id="gallery-heading" class="section-title" data-i18n="gallery_title">Schaut vorbei</h2>
+    </div>
+
+    <div class="gallery-grid">
+      <a href="https://www.instagram.com/tropicalcafe/" target="_blank" rel="noopener noreferrer"
+         class="gallery-item reveal-scale" aria-label="Tropical Café auf Instagram">
+        <img src="images/instagram/Photo_by_Tropical_Caf_Breakfast_Brunch_in_Oberhaus (1).jpg"
+             alt="Frühstück im Tropical Café" loading="lazy" decoding="async" />
+        <div class="gallery-overlay" aria-hidden="true">
+          <svg class="icon-insta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/>
+          </svg>
+        </div>
+      </a>
+
+      <a href="https://www.instagram.com/tropicalcafe/" target="_blank" rel="noopener noreferrer"
+         class="gallery-item gallery-item--tall reveal-scale" aria-label="Tropical Café auf Instagram">
+        <img src="images/instagram/Photo_by_Tropical_Caf_Breakfast_Brunch_in_Oberhaus (4).jpg"
+             alt="Tropical Café Gericht" loading="lazy" decoding="async" />
+        <div class="gallery-overlay" aria-hidden="true">
+          <svg class="icon-insta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/>
+          </svg>
+        </div>
+      </a>
+
+      <a href="https://www.instagram.com/tropicalcafe/" target="_blank" rel="noopener noreferrer"
+         class="gallery-item reveal-scale" aria-label="Tropical Café auf Instagram">
+        <img src="images/instagram/Photo_by_Tropical_Caf_Breakfast_Brunch_in_Oberhaus (5).jpg"
+             alt="Brunch im Tropical Café" loading="lazy" decoding="async" />
+        <div class="gallery-overlay" aria-hidden="true">
+          <svg class="icon-insta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/>
+          </svg>
+        </div>
+      </a>
+
+      <a href="https://www.instagram.com/tropicalcafe/" target="_blank" rel="noopener noreferrer"
+         class="gallery-item reveal-scale" aria-label="Tropical Platte">
+        <img src="images/instagram/Tropical_Platte_breakfast_frhstck_brunch_tropicalp.jpg"
+             alt="Die Tropical Platte" loading="lazy" decoding="async" />
+        <div class="gallery-overlay" aria-hidden="true">
+          <svg class="icon-insta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/>
+          </svg>
+        </div>
+      </a>
+
+      <a href="https://www.instagram.com/tropicalcafe/" target="_blank" rel="noopener noreferrer"
+         class="gallery-item gallery-item--wide reveal-scale" aria-label="Tropical Café Atmosphäre">
+        <img src="images/instagram/Food_The_universal_love_language_that_everyone_und.jpg"
+             alt="Tropical Café ENJOY YOUR VACAY" loading="lazy" decoding="async" />
+        <div class="gallery-overlay" aria-hidden="true">
+          <svg class="icon-insta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/>
+          </svg>
+        </div>
+      </a>
+
+      <a href="https://www.instagram.com/tropicalcafe/" target="_blank" rel="noopener noreferrer"
+         class="gallery-item reveal-scale" aria-label="Vietnamesischer Kaffee">
+        <img src="images/instagram/Ab_sofort_erhltlich_Original_vietnamesischer_Kaffe.jpg"
+             alt="Original vietnamesischer Kaffee" loading="lazy" decoding="async" />
+        <div class="gallery-overlay" aria-hidden="true">
+          <svg class="icon-insta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/>
+          </svg>
+        </div>
+      </a>
+
+      <a href="https://www.instagram.com/tropicalcafe/" target="_blank" rel="noopener noreferrer"
+         class="gallery-item reveal-scale" aria-label="Tropical Café auf Instagram">
+        <img src="images/instagram/Photo_by_Tropical_Caf_Breakfast_Brunch_in_Oberhaus (6).jpg"
+             alt="Tropical Café" loading="lazy" decoding="async" />
+        <div class="gallery-overlay" aria-hidden="true">
+          <svg class="icon-insta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/>
+          </svg>
+        </div>
+      </a>
+
+
+    </div>
+
+    <div class="gallery-cta reveal-up">
+      <a href="https://www.instagram.com/tropicalcafe/"
+         target="_blank" rel="noopener noreferrer"
+         class="btn btn-olive"
+         data-i18n="gallery_cta">@tropicalcafe auf Instagram folgen</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     REVIEWS
+════════════════════════════════════════════════════ -->
+<section id="reviews" class="section-olive grain-overlay" aria-labelledby="reviews-heading">
+  <div class="container">
+    <div class="section-header reveal-up">
+      <span class="label-tag" data-i18n="reviews_label">Eure Stimmen</span>
+      <h2 id="reviews-heading" class="section-title light" data-i18n="reviews_title">Was unsere Gäste sagen</h2>
+    </div>
+
+    <div class="reviews-carousel" id="reviews-carousel" role="region" aria-label="Bewertungen Karussell">
+      <div class="reviews-track" id="reviews-track">
+
+        <article class="review-card">
+          <div class="review-stars" aria-label="5 von 5 Sternen">★★★★★</div>
+          <blockquote class="review-text">
+            "Absolut das beste Frühstückscafé in Oberhausen! Die Smoothie Bowls sind ein Kunstwerk und schmecken noch besser als sie aussehen. Das Ambiente macht einen sofort glücklich."
+          </blockquote>
+          <cite class="review-author">Lena M.</cite>
+        </article>
+
+        <article class="review-card">
+          <div class="review-stars" aria-label="5 von 5 Sternen">★★★★★</div>
+          <blockquote class="review-text">
+            "Top! Die Tropical Platte ist einfach der Hammer – so viel Auswahl auf einem Brett. Sehr freundliches Personal, schneller Service. Volle Empfehlung!"
+          </blockquote>
+          <cite class="review-author">Kemal Y.</cite>
+        </article>
+
+        <article class="review-card">
+          <div class="review-stars" aria-label="5 von 5 Sternen">★★★★★</div>
+          <blockquote class="review-text">
+            "Wir kommen hier jeden Sonntag. Die Pancakes mit Pistazie sind mein absolutes Lieblingsessen. Das Café hat eine unglaubliche Energie – man fühlt sich sofort wohl. 10/10!"
+          </blockquote>
+          <cite class="review-author">Sophie W.</cite>
+        </article>
+
+        <article class="review-card">
+          <div class="review-stars" aria-label="5 von 5 Sternen">★★★★★</div>
+          <blockquote class="review-text">
+            "Mega schönes Café! Die Fotos sagen alles – aber in echt ist es noch schöner. Shakshuka war perfekt gewürzt. Freue mich schon auf den nächsten Besuch."
+          </blockquote>
+          <cite class="review-author">Emre A.</cite>
+        </article>
+
+        <article class="review-card">
+          <div class="review-stars" aria-label="5 von 5 Sternen">★★★★★</div>
+          <blockquote class="review-text">
+            "Ein echtes Highlight in der Innenstadt. Das Avocadobrot war göttlich, der Matcha Latte ein Traum. Hier stimmt einfach alles: Essen, Ambiente, Service."
+          </blockquote>
+          <cite class="review-author">Mia B.</cite>
+        </article>
+
+      </div>
+
+      <div class="reviews-controls">
+        <button class="rev-btn" id="rev-prev" aria-label="Vorherige Bewertung">←</button>
+        <div class="reviews-dots" id="reviews-dots" role="tablist" aria-label="Bewertungen auswählen"></div>
+        <button class="rev-btn" id="rev-next" aria-label="Nächste Bewertung">→</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="wave-bottom" aria-hidden="true">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,60 C480,0 960,80 1440,20 L1440,80 L0,80 Z" fill="#E9E3D4"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     LOCATION & HOURS
+════════════════════════════════════════════════════ -->
+<section id="location" class="section-cream" aria-labelledby="location-heading">
+  <div class="container">
+    <div class="section-header reveal-up">
+      <span class="label-tag" data-i18n="loc_label">Komm vorbei</span>
+      <h2 id="location-heading" class="section-title" data-i18n="loc_title">Uns finden</h2>
+    </div>
+
+    <div class="location-grid">
+      <div class="location-info reveal-left">
+
+        <div class="info-block">
+          <h3 data-i18n="loc_address_title">Adresse</h3>
+          <address>
+            <strong>Tropical Café Oberhausen</strong><br/>
+            Marktstraße 58<br/>
+            46045 Oberhausen<br/>
+            Deutschland
+          </address>
+          <a href="https://maps.app.goo.gl/i9csPSpWfcmQCwPGA"
+             target="_blank" rel="noopener noreferrer"
+             class="btn btn-olive btn-sm"
+             style="margin-top:1rem;"
+             data-i18n="loc_directions">Routenplaner</a>
+        </div>
+
+        <div class="info-block">
+          <h3 data-i18n="loc_hours_title">Öffnungszeiten</h3>
+          <table class="hours-table" aria-label="Öffnungszeiten">
+            <tbody>
+              <tr class="closed">
+                <td data-i18n="day_mon">Montag</td>
+                <td class="closed-label" data-i18n="loc_closed">Ruhetag</td>
+              </tr>
+              <tr><td data-i18n="day_tue">Dienstag</td>   <td>10:00 – 16:00</td></tr>
+              <tr><td data-i18n="day_wed">Mittwoch</td>   <td>10:00 – 16:00</td></tr>
+              <tr><td data-i18n="day_thu">Donnerstag</td> <td>10:00 – 16:00</td></tr>
+              <tr><td data-i18n="day_fri">Freitag</td>    <td>10:00 – 16:00</td></tr>
+              <tr><td data-i18n="day_sat">Samstag</td>    <td>10:00 – 16:00</td></tr>
+              <tr><td data-i18n="day_sun">Sonntag</td>    <td>10:00 – 16:00</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="info-block parking-block">
+          <h3>🅿️ <span data-i18n="loc_parking_title">Parken</span></h3>
+          <ul class="parking-list">
+            <li>Parkhaus elaya Hotel</li>
+            <li>Goebenstraße</li>
+            <li>Stöckmannstraße</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="location-map reveal-right">
+        <iframe
+          title="Tropical Café Oberhausen auf der Karte"
+          src="https://maps.google.com/maps?q=Marktstra%C3%9Fe+58%2C+46045+Oberhausen&t=&z=16&ie=UTF8&iwloc=&output=embed"
+          width="100%"
+          height="480"
+          style="border:0;"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     FAQ
+════════════════════════════════════════════════════ -->
+<section id="faq" class="section-olive grain-overlay" aria-labelledby="faq-heading">
+  <div class="container">
+    <div class="section-header reveal-up">
+      <span class="label-tag" data-i18n="faq_label">Häufige Fragen</span>
+      <h2 id="faq-heading" class="section-title light" data-i18n="faq_title">Häufig gestellte Fragen</h2>
+    </div>
+
+    <div class="faq-list" id="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span data-i18n="faq_q1">Kann man bei euch reservieren?</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" hidden>
+          <p data-i18n="faq_a1">Aktuell bieten wir keine Reservierungen an. Komm einfach spontan vorbei – wir freuen uns immer, dich begrüßen zu dürfen! Am Wochenende empfehlen wir für größere Gruppen, kurz vor Ladenöffnung um 10:00 Uhr da zu sein.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span data-i18n="faq_q2">Kann ich Speisen und Getränke mitnehmen?</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" hidden>
+          <p data-i18n="faq_a2">Ja, natürlich! Du kannst alle Speisen und Getränke aus unserer Karte auch zum Mitnehmen bestellen.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span data-i18n="faq_q3">Seid ihr auf Kinder eingestellt?</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" hidden>
+          <p data-i18n="faq_a3">Kinder sind bei uns mehr als willkommen! Wir haben einen Wickeltisch sowie Hochstühle für unsere kleinen Gäste. Auch mit Kinderwagen bist du herzlich willkommen.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span data-i18n="faq_q4">Ist das Café barrierefrei?</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" hidden>
+          <p data-i18n="faq_a4">Unser Café ist teilweise barrierefrei. Am Eingang gibt es eine kleine Stufe, innen haben wir ausreichend Platz für Rollstühle. Bitte beachte, dass unsere Toilette aktuell nicht barrierefrei ist.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span data-i18n="faq_q5">Darf ich meinen Hund mitbringen?</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" hidden>
+          <p data-i18n="faq_a5">Auch wenn wir selbst Tiere lieben, sind Hunde im Innenbereich leider nicht erlaubt – aus Rücksicht auf Hygiene, mögliche Allergien und den begrenzten Platz.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span data-i18n="faq_q6">Wann gibt es Frühstück?</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" hidden>
+          <p data-i18n="faq_a6">Bei uns gibt es keine festen Frühstückszeiten. Du kannst alle Gerichte von unserer Karte während der gesamten Öffnungszeit genießen – von 10:00 bis 16:00 Uhr.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span data-i18n="faq_q7">Gibt es Parkplätze in der Nähe?</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" hidden>
+          <p data-i18n="faq_a7">Ja! In direkter Nähe findest du das Parkhaus am elaya Hotel, Parkmöglichkeiten auf der Goebenstraße und der Stöckmannstraße sowie weitere öffentliche Parkflächen in der Innenstadt.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span data-i18n="faq_q8">Sind eure Speisen halal?</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" hidden>
+          <p data-i18n="faq_a8">Ja, unsere Speisen sind halal.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span data-i18n="faq_q9">Welche Zahlungsmethoden akzeptiert ihr?</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" hidden>
+          <p data-i18n="faq_a9">Wir akzeptieren Kreditkarten wie Visa und Mastercard sowie moderne, kontaktlose Optionen wie Apple Pay.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════ -->
+<footer id="footer" aria-label="Footer">
+  <div class="container">
+    <div class="footer-grid">
+
+      <div class="footer-brand">
+        <img src="images/logos/Logo 1.png" alt="Tropical Café" class="footer-logo" />
+        <p class="footer-tagline" data-i18n="footer_tagline">Enjoy Your Vacay</p>
+        <div class="footer-social">
+          <a href="https://www.instagram.com/tropicalcafe/"
+             target="_blank" rel="noopener noreferrer"
+             aria-label="Tropical Café auf Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22" height="22" aria-hidden="true">
+              <rect x="2" y="2" width="20" height="20" rx="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-links">
+        <h4 data-i18n="footer_nav">Navigation</h4>
+        <ul>
+          <li><a href="#about"    data-i18n="nav_about">Über uns</a></li>
+          <li><a href="#menu"     data-i18n="nav_menu">Menü</a></li>
+          <li><a href="#gallery"  data-i18n="nav_gallery">Galerie</a></li>
+          <li><a href="#location" data-i18n="nav_location">Standort</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-info">
+        <h4 data-i18n="loc_hours_title">Öffnungszeiten</h4>
+        <p data-i18n="footer_hours_1">Di–So: 10:00–16:00</p>
+        <p data-i18n="footer_hours_2">Mo: Ruhetag</p>
+        <h4 style="margin-top:1.5rem;" data-i18n="loc_address_title">Adresse</h4>
+        <address>
+          Marktstraße 58<br/>
+          46045 Oberhausen
+        </address>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p data-i18n="footer_copyright">© 2025 Tropical Café Oberhausen · Alle Rechte vorbehalten</p>
+    </div>
+  </div>
 </footer>
 
-<script>
+<!-- ── GSAP (CDN) ─────────────────────────────────── -->
+<!-- Lenis smooth scroll -->
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
 
-function filterMenu(category,event){
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
-let items=document.querySelectorAll(".card");
-let dividers=document.querySelectorAll(".section-divider");
+<!-- ── App Scripts ────────────────────────────────── -->
+<script src="js/i18n.js"></script>
+<script src="data/menu.js"></script>
+<script src="js/menu.js"></script>
+<script src="js/faq.js"></script>
+<script src="js/animations.js"></script>
+<script src="js/app.js"></script>
 
-items.forEach(item=>{
-if(category==="all"){
-item.style.display="block";
-}else{
-item.style.display=item.classList.contains(category)?"block":"none";
-}
-});
-
-dividers.forEach(divider=>{
-
-if(category==="all"){
-divider.style.display="block";
-return;
-}
-
-if(category==="bowls" && divider.classList.contains("bowls-divider"))
-divider.style.display="block";
-else if(category==="wraps" && divider.classList.contains("wraps-divider"))
-divider.style.display="block";
-else if(category==="pancakes" && divider.classList.contains("pancakes-divider"))
-divider.style.display="block";
-else
-divider.style.display="none";
-
-});
-
-document.querySelectorAll(".category-bar button")
-.forEach(btn=>btn.classList.remove("active"));
-
-event.target.classList.add("active");
-
-}
-
-function toggleCard(card){
-
-const menu=document.querySelector(".menu")
-
-/* get category of clicked card */
-const category=[...card.classList].find(c=>c!=="card")
-
-/* only cards from same section */
-const cards=[...menu.querySelectorAll(".card."+category)]
-
-document.querySelectorAll(".card").forEach(c=>{
-if(c!==card)c.classList.remove("active")
-})
-
-card.classList.toggle("active")
-
-if(card.classList.contains("active")){
-
-const index=cards.indexOf(card)
-
-/* move only within same section */
-
-if(index%2===1 && cards[index-1]){
-cards[index-1].before(card)
-}
-
-}
-
-}
-
-</script>
 </body>
 </html>
